@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.Recording.TranscriptionService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{recording_sid}/Transcriptions.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "transcriptions")
@@ -70,8 +70,7 @@ defmodule Twilio.Api.V2010.Recording.TranscriptionService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{recording_sid}/Transcriptions/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Recording.Transcription)}
     end
@@ -89,8 +88,7 @@ defmodule Twilio.Api.V2010.Recording.TranscriptionService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{recording_sid}/Transcriptions/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

@@ -16,11 +16,14 @@ defmodule Twilio.Marketplace.V1.InstalledAddOn.InstalledAddOnUsageService do
   @spec create(Client.t(), String.t(), map(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def create(client, installed_add_on_sid, params \\ %{}, opts \\ []) do
-    Client.request(client, :post, "/v1/InstalledAddOns/#{installed_add_on_sid}/Usage",
-      params: params,
-      opts: opts,
-      base_url: "https://marketplace.twilio.com",
-      content_type: :json
+    Client.request(
+      client,
+      :post,
+      "/v1/InstalledAddOns/#{installed_add_on_sid}/Usage",
+      opts
+      |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
+      |> Keyword.put_new(:content_type, :json)
+      |> Keyword.put(:params, params)
     )
   end
 end

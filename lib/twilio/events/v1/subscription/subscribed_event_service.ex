@@ -17,10 +17,13 @@ defmodule Twilio.Events.V1.Subscription.SubscribedEventService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, subscription_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents",
-           params: params,
-           opts: opts,
-           base_url: "https://events.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents",
+           opts
+           |> Keyword.put_new(:base_url, "https://events.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "types")
@@ -74,11 +77,14 @@ defmodule Twilio.Events.V1.Subscription.SubscribedEventService do
           | {:error, Twilio.Error.t()}
   def create(client, subscription_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents",
-             params: params,
-             opts: opts,
-             base_url: "https://events.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents",
+             opts
+             |> Keyword.put_new(:base_url, "https://events.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Events.V1.Subscription.SubscribedEvent)}
@@ -101,8 +107,7 @@ defmodule Twilio.Events.V1.Subscription.SubscribedEventService do
              client,
              :get,
              "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents/#{sid}",
-             opts: opts,
-             base_url: "https://events.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://events.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Events.V1.Subscription.SubscribedEvent)}
@@ -131,10 +136,10 @@ defmodule Twilio.Events.V1.Subscription.SubscribedEventService do
              client,
              :post,
              "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://events.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://events.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Events.V1.Subscription.SubscribedEvent)}
@@ -153,8 +158,7 @@ defmodule Twilio.Events.V1.Subscription.SubscribedEventService do
       client,
       :delete,
       "/v1/Subscriptions/#{subscription_sid}/SubscribedEvents/#{sid}",
-      opts: opts,
-      base_url: "https://events.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://events.twilio.com")
     )
   end
 end

@@ -17,10 +17,13 @@ defmodule Twilio.Studio.V2.Flow.FlowRevisionService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Flows/#{sid}/Revisions",
-           params: params,
-           opts: opts,
-           base_url: "https://studio.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Flows/#{sid}/Revisions",
+           opts
+           |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "revisions")
@@ -63,9 +66,11 @@ defmodule Twilio.Studio.V2.Flow.FlowRevisionService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Flows/#{sid}/Revisions/#{sid}",
-             opts: opts,
-             base_url: "https://studio.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Flows/#{sid}/Revisions/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://studio.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow.FlowRevision)}
     end

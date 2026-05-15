@@ -17,10 +17,13 @@ defmodule Twilio.Events.V1.Schema.SchemaVersionService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, id, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Schemas/#{id}/Versions",
-           params: params,
-           opts: opts,
-           base_url: "https://events.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Schemas/#{id}/Versions",
+           opts
+           |> Keyword.put_new(:base_url, "https://events.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "schema_versions")
@@ -63,9 +66,11 @@ defmodule Twilio.Events.V1.Schema.SchemaVersionService do
           | {:error, Twilio.Error.t()}
   def fetch(client, id, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Schemas/#{id}/Versions/#{sid}",
-             opts: opts,
-             base_url: "https://events.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Schemas/#{id}/Versions/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://events.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Events.V1.Schema.SchemaVersion)}
     end

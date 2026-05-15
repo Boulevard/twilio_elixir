@@ -21,9 +21,11 @@ defmodule Twilio.Flex.V1.Insight.InsightsUserRolesService do
           | {:error, Twilio.Error.t()}
   def fetch(client, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Insights/UserRoles",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Insights/UserRoles",
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Insight.InsightsUserRoles)}
     end

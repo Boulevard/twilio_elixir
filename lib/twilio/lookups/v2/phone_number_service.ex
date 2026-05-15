@@ -56,9 +56,11 @@ defmodule Twilio.Lookups.V2.PhoneNumberService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/PhoneNumbers/#{sid}",
-             opts: opts,
-             base_url: "https://lookups.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/PhoneNumbers/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://lookups.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Lookups.V2.PhoneNumber)}
     end

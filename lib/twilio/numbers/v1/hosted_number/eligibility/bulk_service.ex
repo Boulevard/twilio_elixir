@@ -21,11 +21,14 @@ defmodule Twilio.Numbers.V1.HostedNumber.Eligibility.BulkService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/HostedNumber/Eligibility/Bulk",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/HostedNumber/Eligibility/Bulk",
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.HostedNumber.Eligibility.Bulk)}
@@ -44,9 +47,11 @@ defmodule Twilio.Numbers.V1.HostedNumber.Eligibility.BulkService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/HostedNumber/Eligibility/Bulk/#{sid}",
-             opts: opts,
-             base_url: "https://numbers.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/HostedNumber/Eligibility/Bulk/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.HostedNumber.Eligibility.Bulk)}

@@ -17,10 +17,13 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.CopyService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, bundle_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/Copies",
-           params: params,
-           opts: opts,
-           base_url: "https://numbers.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/Copies",
+           opts
+           |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "results")
@@ -70,11 +73,14 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.CopyService do
           | {:error, Twilio.Error.t()}
   def create(client, bundle_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/Copies",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/Copies",
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

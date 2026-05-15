@@ -78,11 +78,14 @@ defmodule Twilio.Trusthub.V1.ComplianceInquiry.Tollfree.ComplianceTollfreeInquir
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/ComplianceInquiries/Tollfree/Initialize",
-             params: params,
-             opts: opts,
-             base_url: "https://trusthub.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/ComplianceInquiries/Tollfree/Initialize",
+             opts
+             |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

@@ -17,10 +17,13 @@ defmodule Twilio.Messaging.V1.Service.ChannelSenderService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, messaging_service_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Services/#{messaging_service_sid}/ChannelSenders",
-           params: params,
-           opts: opts,
-           base_url: "https://messaging.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Services/#{messaging_service_sid}/ChannelSenders",
+           opts
+           |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "senders")
@@ -69,11 +72,14 @@ defmodule Twilio.Messaging.V1.Service.ChannelSenderService do
           | {:error, Twilio.Error.t()}
   def create(client, messaging_service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Services/#{messaging_service_sid}/ChannelSenders",
-             params: params,
-             opts: opts,
-             base_url: "https://messaging.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Services/#{messaging_service_sid}/ChannelSenders",
+             opts
+             |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.Service.ChannelSender)}
     end
@@ -95,8 +101,7 @@ defmodule Twilio.Messaging.V1.Service.ChannelSenderService do
              client,
              :get,
              "/v1/Services/#{messaging_service_sid}/ChannelSenders/#{sid}",
-             opts: opts,
-             base_url: "https://messaging.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.Service.ChannelSender)}
     end
@@ -110,9 +115,11 @@ defmodule Twilio.Messaging.V1.Service.ChannelSenderService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, messaging_service_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Services/#{messaging_service_sid}/ChannelSenders/#{sid}",
-      opts: opts,
-      base_url: "https://messaging.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Services/#{messaging_service_sid}/ChannelSenders/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
     )
   end
 end

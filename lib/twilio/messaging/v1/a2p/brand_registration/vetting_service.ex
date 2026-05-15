@@ -23,10 +23,13 @@ defmodule Twilio.Messaging.V1.A2p.BrandRegistration.VettingService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, brand_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/a2p/BrandRegistrations/#{brand_sid}/Vettings",
-           params: params,
-           opts: opts,
-           base_url: "https://messaging.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/a2p/BrandRegistrations/#{brand_sid}/Vettings",
+           opts
+           |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "data")
@@ -80,11 +83,14 @@ defmodule Twilio.Messaging.V1.A2p.BrandRegistration.VettingService do
           | {:error, Twilio.Error.t()}
   def create(client, brand_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/a2p/BrandRegistrations/#{brand_sid}/Vettings",
-             params: params,
-             opts: opts,
-             base_url: "https://messaging.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/a2p/BrandRegistrations/#{brand_sid}/Vettings",
+             opts
+             |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.A2p.BrandRegistration.Vetting)}
@@ -103,9 +109,11 @@ defmodule Twilio.Messaging.V1.A2p.BrandRegistration.VettingService do
           | {:error, Twilio.Error.t()}
   def fetch(client, brand_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/a2p/BrandRegistrations/#{brand_sid}/Vettings/#{sid}",
-             opts: opts,
-             base_url: "https://messaging.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/a2p/BrandRegistrations/#{brand_sid}/Vettings/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.A2p.BrandRegistration.Vetting)}

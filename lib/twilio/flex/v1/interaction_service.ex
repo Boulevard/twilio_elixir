@@ -34,11 +34,14 @@ defmodule Twilio.Flex.V1.InteractionService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Interactions",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Interactions",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Interaction)}
     end
@@ -56,9 +59,11 @@ defmodule Twilio.Flex.V1.InteractionService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Interactions/#{sid}",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Interactions/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Interaction)}
     end
@@ -82,11 +87,14 @@ defmodule Twilio.Flex.V1.InteractionService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Interactions/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Interactions/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Interaction)}
     end

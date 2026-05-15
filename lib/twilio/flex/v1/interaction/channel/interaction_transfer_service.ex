@@ -25,10 +25,10 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionTransferService do
              client,
              :post,
              "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Transfers",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :json
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -54,8 +54,7 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionTransferService do
              client,
              :get,
              "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Transfers/#{sid}",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -81,10 +80,10 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionTransferService do
              client,
              :post,
              "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Transfers/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :json
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

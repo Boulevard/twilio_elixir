@@ -28,9 +28,11 @@ defmodule Twilio.Pricing.V2.Voice.NumberService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Voice/Numbers/#{sid}",
-             opts: opts,
-             base_url: "https://pricing.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Voice/Numbers/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://pricing.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Pricing.V2.Voice.Number)}
     end

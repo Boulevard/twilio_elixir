@@ -29,11 +29,14 @@ defmodule Twilio.Chat.V3.Service.ChannelService do
           | {:error, Twilio.Error.t()}
   def update(client, service_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v3/Services/#{service_sid}/Channels/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://chat.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v3/Services/#{service_sid}/Channels/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V3.Service.Channel)}
     end

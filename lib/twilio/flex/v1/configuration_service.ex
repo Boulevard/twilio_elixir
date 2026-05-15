@@ -27,9 +27,11 @@ defmodule Twilio.Flex.V1.ConfigurationService do
           | {:error, Twilio.Error.t()}
   def fetch(client, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Configuration",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Configuration",
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Configuration)}
     end
@@ -47,11 +49,14 @@ defmodule Twilio.Flex.V1.ConfigurationService do
           | {:error, Twilio.Error.t()}
   def update(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Configuration",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/Configuration",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Configuration)}
     end

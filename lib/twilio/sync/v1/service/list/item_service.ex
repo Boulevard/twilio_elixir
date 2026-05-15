@@ -27,10 +27,13 @@ defmodule Twilio.Sync.V1.Service.List.ItemService do
   @spec list(Client.t(), String.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, service_sid, list_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items",
-           params: params,
-           opts: opts,
-           base_url: "https://sync.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items",
+           opts
+           |> Keyword.put_new(:base_url, "https://sync.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "items")
@@ -89,11 +92,14 @@ defmodule Twilio.Sync.V1.Service.List.ItemService do
           | {:error, Twilio.Error.t()}
   def create(client, service_sid, list_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items",
-             params: params,
-             opts: opts,
-             base_url: "https://sync.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items",
+             opts
+             |> Keyword.put_new(:base_url, "https://sync.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Sync.V1.Service.List.Item)}
     end
@@ -115,8 +121,7 @@ defmodule Twilio.Sync.V1.Service.List.ItemService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items/#{sid}",
-             opts: opts,
-             base_url: "https://sync.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://sync.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Sync.V1.Service.List.Item)}
     end
@@ -150,10 +155,10 @@ defmodule Twilio.Sync.V1.Service.List.ItemService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://sync.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://sync.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Sync.V1.Service.List.Item)}
     end
@@ -167,9 +172,11 @@ defmodule Twilio.Sync.V1.Service.List.ItemService do
   @spec delete(Client.t(), String.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, service_sid, list_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items/#{sid}",
-      opts: opts,
-      base_url: "https://sync.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Services/#{service_sid}/Lists/#{list_sid}/Items/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://sync.twilio.com")
     )
   end
 end

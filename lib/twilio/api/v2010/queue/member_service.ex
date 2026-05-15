@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.Queue.MemberService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Queues/#{queue_sid}/Members.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "queue_members")
@@ -67,8 +67,7 @@ defmodule Twilio.Api.V2010.Queue.MemberService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Queues/#{queue_sid}/Members/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Queue.Member)}
     end
@@ -102,10 +101,10 @@ defmodule Twilio.Api.V2010.Queue.MemberService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Queues/#{queue_sid}/Members/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Queue.Member)}
     end

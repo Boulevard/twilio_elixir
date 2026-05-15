@@ -21,11 +21,14 @@ defmodule Twilio.Numbers.V1.Porting.PortInService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Porting/PortIn",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/Porting/PortIn",
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.Porting.PortIn)}
     end
@@ -43,9 +46,11 @@ defmodule Twilio.Numbers.V1.Porting.PortInService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Porting/PortIn/#{sid}",
-             opts: opts,
-             base_url: "https://numbers.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Porting/PortIn/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.Porting.PortIn)}
     end
@@ -59,9 +64,11 @@ defmodule Twilio.Numbers.V1.Porting.PortInService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Porting/PortIn/#{sid}",
-      opts: opts,
-      base_url: "https://numbers.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Porting/PortIn/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
     )
   end
 end

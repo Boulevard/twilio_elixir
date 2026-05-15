@@ -25,10 +25,10 @@ defmodule Twilio.Messaging.V1.LinkShortening.Domain.RequestManagedCertService do
              client,
              :post,
              "/v1/LinkShortening/Domains/#{domain_sid}/RequestManagedCert",
-             params: params,
-             opts: opts,
-             base_url: "https://messaging.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

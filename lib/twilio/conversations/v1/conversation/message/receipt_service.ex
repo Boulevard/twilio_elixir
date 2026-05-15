@@ -21,9 +21,9 @@ defmodule Twilio.Conversations.V1.Conversation.Message.ReceiptService do
            client,
            :get,
            "/v1/Conversations/#{conversation_sid}/Messages/#{message_sid}/Receipts",
-           params: params,
-           opts: opts,
-           base_url: "https://conversations.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "delivery_receipts")
@@ -70,8 +70,7 @@ defmodule Twilio.Conversations.V1.Conversation.Message.ReceiptService do
              client,
              :get,
              "/v1/Conversations/#{conversation_sid}/Messages/#{message_sid}/Receipts/#{sid}",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

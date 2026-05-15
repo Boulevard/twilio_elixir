@@ -36,11 +36,14 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.CloneService do
           | {:error, Twilio.Error.t()}
   def update(client, bundle_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/Clones",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/Clones",
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

@@ -32,10 +32,13 @@ defmodule Twilio.Video.V1.RecordingService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Recordings",
-           params: params,
-           opts: opts,
-           base_url: "https://video.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Recordings",
+           opts
+           |> Keyword.put_new(:base_url, "https://video.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "recordings")
@@ -74,9 +77,11 @@ defmodule Twilio.Video.V1.RecordingService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Recordings/#{sid}",
-             opts: opts,
-             base_url: "https://video.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Recordings/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.Recording)}
     end
@@ -90,9 +95,11 @@ defmodule Twilio.Video.V1.RecordingService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Recordings/#{sid}",
-      opts: opts,
-      base_url: "https://video.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Recordings/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
     )
   end
 end

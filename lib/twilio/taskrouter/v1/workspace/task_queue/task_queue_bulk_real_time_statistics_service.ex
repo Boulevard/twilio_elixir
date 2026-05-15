@@ -26,10 +26,10 @@ defmodule Twilio.Taskrouter.V1.Workspace.TaskQueue.TaskQueueBulkRealTimeStatisti
              client,
              :post,
              "/v1/Workspaces/#{workspace_sid}/TaskQueues/RealTimeStatistics",
-             params: params,
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com",
-             content_type: :json
+             opts
+             |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

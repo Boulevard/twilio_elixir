@@ -21,9 +21,11 @@ defmodule Twilio.Content.V1.Content.ApprovalRequestService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Content/#{sid}/ApprovalRequests",
-             opts: opts,
-             base_url: "https://content.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Content/#{sid}/ApprovalRequests",
+             opts |> Keyword.put_new(:base_url, "https://content.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Content.V1.Content.ApprovalRequest)}
     end

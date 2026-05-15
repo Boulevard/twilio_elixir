@@ -16,11 +16,14 @@ defmodule Twilio.Intelligence.V2.Service.OperatorService do
   @spec update(Client.t(), String.t(), String.t(), map(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def update(client, service_sid, sid, params \\ %{}, opts \\ []) do
-    Client.request(client, :post, "/v2/Services/#{service_sid}/Operators/#{sid}",
-      params: params,
-      opts: opts,
-      base_url: "https://intelligence.twilio.com",
-      content_type: :form
+    Client.request(
+      client,
+      :post,
+      "/v2/Services/#{service_sid}/Operators/#{sid}",
+      opts
+      |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
+      |> Keyword.put_new(:content_type, :form)
+      |> Keyword.put(:params, params)
     )
   end
 
@@ -32,9 +35,11 @@ defmodule Twilio.Intelligence.V2.Service.OperatorService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, service_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v2/Services/#{service_sid}/Operators/#{sid}",
-      opts: opts,
-      base_url: "https://intelligence.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v2/Services/#{service_sid}/Operators/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
     )
   end
 end

@@ -21,9 +21,11 @@ defmodule Twilio.Insights.V2.Voice.ReportService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Voice/Reports/#{sid}",
-             opts: opts,
-             base_url: "https://insights.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Voice/Reports/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://insights.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Insights.V2.Voice.Report)}
     end

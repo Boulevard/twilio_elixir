@@ -32,9 +32,9 @@ defmodule Twilio.Api.V2010.Usage.TriggerService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Usage/Triggers.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "usage_triggers")
@@ -99,10 +99,10 @@ defmodule Twilio.Api.V2010.Usage.TriggerService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Usage/Triggers.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Usage.Trigger)}
     end
@@ -124,8 +124,7 @@ defmodule Twilio.Api.V2010.Usage.TriggerService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Usage/Triggers/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Usage.Trigger)}
     end
@@ -157,10 +156,10 @@ defmodule Twilio.Api.V2010.Usage.TriggerService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Usage/Triggers/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Usage.Trigger)}
     end
@@ -178,8 +177,7 @@ defmodule Twilio.Api.V2010.Usage.TriggerService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/Usage/Triggers/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

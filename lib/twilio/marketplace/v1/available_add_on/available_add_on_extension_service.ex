@@ -17,10 +17,13 @@ defmodule Twilio.Marketplace.V1.AvailableAddOn.AvailableAddOnExtensionService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, available_add_on_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/AvailableAddOns/#{available_add_on_sid}/Extensions",
-           params: params,
-           opts: opts,
-           base_url: "https://marketplace.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/AvailableAddOns/#{available_add_on_sid}/Extensions",
+           opts
+           |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "extensions")
@@ -67,8 +70,7 @@ defmodule Twilio.Marketplace.V1.AvailableAddOn.AvailableAddOnExtensionService do
              client,
              :get,
              "/v1/AvailableAddOns/#{available_add_on_sid}/Extensions/#{sid}",
-             opts: opts,
-             base_url: "https://marketplace.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

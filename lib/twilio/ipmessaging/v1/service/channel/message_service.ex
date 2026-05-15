@@ -27,9 +27,9 @@ defmodule Twilio.IpMessaging.V1.Service.Channel.MessageService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Channels/#{channel_sid}/Messages",
-           params: params,
-           opts: opts,
-           base_url: "https://ip-messaging.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://ip-messaging.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "messages")
@@ -88,10 +88,10 @@ defmodule Twilio.IpMessaging.V1.Service.Channel.MessageService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Channels/#{channel_sid}/Messages",
-             params: params,
-             opts: opts,
-             base_url: "https://ip-messaging.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://ip-messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.IpMessaging.V1.Service.Channel.Message)}
@@ -114,8 +114,7 @@ defmodule Twilio.IpMessaging.V1.Service.Channel.MessageService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Channels/#{channel_sid}/Messages/#{sid}",
-             opts: opts,
-             base_url: "https://ip-messaging.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://ip-messaging.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.IpMessaging.V1.Service.Channel.Message)}
@@ -145,10 +144,10 @@ defmodule Twilio.IpMessaging.V1.Service.Channel.MessageService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Channels/#{channel_sid}/Messages/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://ip-messaging.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://ip-messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.IpMessaging.V1.Service.Channel.Message)}
@@ -167,8 +166,7 @@ defmodule Twilio.IpMessaging.V1.Service.Channel.MessageService do
       client,
       :delete,
       "/v1/Services/#{service_sid}/Channels/#{channel_sid}/Messages/#{sid}",
-      opts: opts,
-      base_url: "https://ip-messaging.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://ip-messaging.twilio.com")
     )
   end
 end

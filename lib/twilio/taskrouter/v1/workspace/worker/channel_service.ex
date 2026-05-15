@@ -21,9 +21,9 @@ defmodule Twilio.Taskrouter.V1.Workspace.Worker.ChannelService do
            client,
            :get,
            "/v1/Workspaces/#{workspace_sid}/Workers/#{worker_sid}/Channels",
-           params: params,
-           opts: opts,
-           base_url: "https://taskrouter.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "channels")
@@ -70,8 +70,7 @@ defmodule Twilio.Taskrouter.V1.Workspace.Worker.ChannelService do
              client,
              :get,
              "/v1/Workspaces/#{workspace_sid}/Workers/#{worker_sid}/Channels/#{sid}",
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Worker.Channel)}
@@ -103,10 +102,10 @@ defmodule Twilio.Taskrouter.V1.Workspace.Worker.ChannelService do
              client,
              :post,
              "/v1/Workspaces/#{workspace_sid}/Workers/#{worker_sid}/Channels/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Worker.Channel)}

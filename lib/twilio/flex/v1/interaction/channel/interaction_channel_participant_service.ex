@@ -21,9 +21,9 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionChannelParticipantServic
            client,
            :get,
            "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Participants",
-           params: params,
-           opts: opts,
-           base_url: "https://flex-api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "participants")
@@ -82,10 +82,10 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionChannelParticipantServic
              client,
              :post,
              "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Participants",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -117,10 +117,10 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionChannelParticipantServic
              client,
              :post,
              "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Participants/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

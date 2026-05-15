@@ -17,10 +17,13 @@ defmodule Twilio.Video.V1.Room.TranscriptionsService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, room_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Rooms/#{room_sid}/Transcriptions",
-           params: params,
-           opts: opts,
-           base_url: "https://video.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Rooms/#{room_sid}/Transcriptions",
+           opts
+           |> Keyword.put_new(:base_url, "https://video.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "transcriptions")
@@ -69,11 +72,14 @@ defmodule Twilio.Video.V1.Room.TranscriptionsService do
           | {:error, Twilio.Error.t()}
   def create(client, room_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Rooms/#{room_sid}/Transcriptions",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Rooms/#{room_sid}/Transcriptions",
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.Room.Transcriptions)}
     end
@@ -91,9 +97,11 @@ defmodule Twilio.Video.V1.Room.TranscriptionsService do
           | {:error, Twilio.Error.t()}
   def fetch(client, room_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Rooms/#{room_sid}/Transcriptions/#{sid}",
-             opts: opts,
-             base_url: "https://video.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Rooms/#{room_sid}/Transcriptions/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.Room.Transcriptions)}
     end
@@ -118,11 +126,14 @@ defmodule Twilio.Video.V1.Room.TranscriptionsService do
           | {:error, Twilio.Error.t()}
   def update(client, room_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Rooms/#{room_sid}/Transcriptions/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Rooms/#{room_sid}/Transcriptions/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.Room.Transcriptions)}
     end

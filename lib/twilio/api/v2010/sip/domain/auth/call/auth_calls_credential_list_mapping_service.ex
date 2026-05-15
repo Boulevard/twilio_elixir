@@ -22,9 +22,9 @@ defmodule Twilio.Api.V2010.SIP.Domain.Auth.Call.AuthCallsCredentialListMappingSe
            :get,
            # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
            "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/Auth/Calls/CredentialListMappings.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "contents")
@@ -80,10 +80,10 @@ defmodule Twilio.Api.V2010.SIP.Domain.Auth.Call.AuthCallsCredentialListMappingSe
              :post,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/Auth/Calls/CredentialListMappings.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -111,8 +111,7 @@ defmodule Twilio.Api.V2010.SIP.Domain.Auth.Call.AuthCallsCredentialListMappingSe
              :get,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/Auth/Calls/CredentialListMappings/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -135,8 +134,7 @@ defmodule Twilio.Api.V2010.SIP.Domain.Auth.Call.AuthCallsCredentialListMappingSe
       :delete,
       # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
       "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/Auth/Calls/CredentialListMappings/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

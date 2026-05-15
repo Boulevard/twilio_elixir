@@ -24,10 +24,13 @@ defmodule Twilio.Intelligence.V2.Transcript.OperatorResultService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, transcript_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Transcripts/#{transcript_sid}/OperatorResults",
-           params: params,
-           opts: opts,
-           base_url: "https://intelligence.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Transcripts/#{transcript_sid}/OperatorResults",
+           opts
+           |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "operator_results")
@@ -81,8 +84,7 @@ defmodule Twilio.Intelligence.V2.Transcript.OperatorResultService do
              client,
              :get,
              "/v2/Transcripts/#{transcript_sid}/OperatorResults/Encrypted",
-             opts: opts,
-             base_url: "https://intelligence.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Intelligence.V2.Transcript.OperatorResult)}

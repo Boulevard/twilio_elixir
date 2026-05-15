@@ -39,11 +39,14 @@ defmodule Twilio.Flex.V2.WebChannelsService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/WebChats",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/WebChats",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V2.WebChannels)}
     end

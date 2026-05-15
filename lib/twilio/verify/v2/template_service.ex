@@ -23,10 +23,13 @@ defmodule Twilio.Verify.V2.TemplateService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Templates",
-           params: params,
-           opts: opts,
-           base_url: "https://verify.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Templates",
+           opts
+           |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "templates")

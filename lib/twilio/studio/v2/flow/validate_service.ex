@@ -34,11 +34,14 @@ defmodule Twilio.Studio.V2.Flow.ValidateService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Flows/Validate",
-             params: params,
-             opts: opts,
-             base_url: "https://studio.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Flows/Validate",
+             opts
+             |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow.Validate)}
     end

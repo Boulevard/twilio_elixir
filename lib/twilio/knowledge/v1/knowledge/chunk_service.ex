@@ -17,10 +17,13 @@ defmodule Twilio.Knowledge.V1.Knowledge.ChunkService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, id, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Knowledge/#{id}/Chunks",
-           params: params,
-           opts: opts,
-           base_url: "https://knowledge.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Knowledge/#{id}/Chunks",
+           opts
+           |> Keyword.put_new(:base_url, "https://knowledge.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "chunks")

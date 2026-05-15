@@ -21,9 +21,9 @@ defmodule Twilio.Video.V1.Room.Participant.SubscribedTrackService do
            client,
            :get,
            "/v1/Rooms/#{room_sid}/Participants/#{participant_sid}/SubscribedTracks",
-           params: params,
-           opts: opts,
-           base_url: "https://video.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://video.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "subscribed_tracks")
@@ -71,8 +71,7 @@ defmodule Twilio.Video.V1.Room.Participant.SubscribedTrackService do
              client,
              :get,
              "/v1/Rooms/#{room_sid}/Participants/#{participant_sid}/SubscribedTracks/#{sid}",
-             opts: opts,
-             base_url: "https://video.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Video.V1.Room.Participant.SubscribedTrack)}

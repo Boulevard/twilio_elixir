@@ -23,10 +23,13 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.InsightsQuestionnairesService
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Insights/QualityManagement/Questionnaires",
-           params: params,
-           opts: opts,
-           base_url: "https://flex-api.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Insights/QualityManagement/Questionnaires",
+           opts
+           |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "questionnaires")
@@ -82,11 +85,14 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.InsightsQuestionnairesService
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Insights/QualityManagement/Questionnaires",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Insights/QualityManagement/Questionnaires",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -108,9 +114,11 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.InsightsQuestionnairesService
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Insights/QualityManagement/Questionnaires/#{sid}",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Insights/QualityManagement/Questionnaires/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -145,11 +153,14 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.InsightsQuestionnairesService
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Insights/QualityManagement/Questionnaires/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Insights/QualityManagement/Questionnaires/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -167,9 +178,11 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.InsightsQuestionnairesService
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Insights/QualityManagement/Questionnaires/#{sid}",
-      opts: opts,
-      base_url: "https://flex-api.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Insights/QualityManagement/Questionnaires/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
     )
   end
 end

@@ -21,9 +21,11 @@ defmodule Twilio.Studio.V2.Flow.FlowTestUserService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Flows/#{sid}/TestUsers",
-             opts: opts,
-             base_url: "https://studio.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Flows/#{sid}/TestUsers",
+             opts |> Keyword.put_new(:base_url, "https://studio.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow.FlowTestUser)}
     end
@@ -47,11 +49,14 @@ defmodule Twilio.Studio.V2.Flow.FlowTestUserService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Flows/#{sid}/TestUsers",
-             params: params,
-             opts: opts,
-             base_url: "https://studio.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Flows/#{sid}/TestUsers",
+             opts
+             |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow.FlowTestUser)}
     end

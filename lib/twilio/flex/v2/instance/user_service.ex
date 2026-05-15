@@ -21,9 +21,11 @@ defmodule Twilio.Flex.V2.Instance.UserService do
           | {:error, Twilio.Error.t()}
   def fetch(client, instance_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Instances/#{instance_sid}/Users/#{sid}",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Instances/#{instance_sid}/Users/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V2.Instance.User)}
     end
@@ -49,11 +51,14 @@ defmodule Twilio.Flex.V2.Instance.UserService do
           | {:error, Twilio.Error.t()}
   def update(client, instance_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Instances/#{instance_sid}/Users/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Instances/#{instance_sid}/Users/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V2.Instance.User)}
     end

@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.SIP.Domain.CredentialListMappingService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/CredentialListMappings.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "credential_list_mappings")
@@ -77,10 +77,10 @@ defmodule Twilio.Api.V2010.SIP.Domain.CredentialListMappingService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/CredentialListMappings.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.Domain.CredentialListMapping)}
@@ -103,8 +103,7 @@ defmodule Twilio.Api.V2010.SIP.Domain.CredentialListMappingService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/CredentialListMappings/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.Domain.CredentialListMapping)}
@@ -123,8 +122,7 @@ defmodule Twilio.Api.V2010.SIP.Domain.CredentialListMappingService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{domain_sid}/CredentialListMappings/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

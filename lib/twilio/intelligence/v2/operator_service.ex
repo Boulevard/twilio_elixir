@@ -25,10 +25,13 @@ defmodule Twilio.Intelligence.V2.OperatorService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Operators",
-           params: params,
-           opts: opts,
-           base_url: "https://intelligence.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Operators",
+           opts
+           |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "operators")
@@ -71,9 +74,11 @@ defmodule Twilio.Intelligence.V2.OperatorService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Operators/#{sid}",
-             opts: opts,
-             base_url: "https://intelligence.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Operators/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Intelligence.V2.Operator)}
     end

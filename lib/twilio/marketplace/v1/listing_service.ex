@@ -22,9 +22,11 @@ defmodule Twilio.Marketplace.V1.ListingService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Listing/#{sid}",
-             opts: opts,
-             base_url: "https://marketplace.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Listing/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Marketplace.V1.Listing)}
     end
@@ -60,11 +62,14 @@ defmodule Twilio.Marketplace.V1.ListingService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Listing/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://marketplace.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Listing/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Marketplace.V1.Listing)}
     end

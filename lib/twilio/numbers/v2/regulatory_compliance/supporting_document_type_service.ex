@@ -17,10 +17,13 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.SupportingDocumentTypeService d
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/RegulatoryCompliance/SupportingDocumentTypes",
-           params: params,
-           opts: opts,
-           base_url: "https://numbers.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/RegulatoryCompliance/SupportingDocumentTypes",
+           opts
+           |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "supporting_document_types")
@@ -63,9 +66,11 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.SupportingDocumentTypeService d
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/RegulatoryCompliance/SupportingDocumentTypes/#{sid}",
-             opts: opts,
-             base_url: "https://numbers.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/RegulatoryCompliance/SupportingDocumentTypes/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

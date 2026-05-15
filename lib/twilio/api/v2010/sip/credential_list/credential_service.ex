@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.SIP.CredentialList.CredentialService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/SIP/CredentialLists/#{credential_list_sid}/Credentials.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "credentials")
@@ -79,10 +79,10 @@ defmodule Twilio.Api.V2010.SIP.CredentialList.CredentialService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/CredentialLists/#{credential_list_sid}/Credentials.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.CredentialList.Credential)}
@@ -106,8 +106,7 @@ defmodule Twilio.Api.V2010.SIP.CredentialList.CredentialService do
              :get,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/CredentialLists/#{credential_list_sid}/Credentials/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.CredentialList.Credential)}
@@ -138,10 +137,10 @@ defmodule Twilio.Api.V2010.SIP.CredentialList.CredentialService do
              :post,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/CredentialLists/#{credential_list_sid}/Credentials/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.CredentialList.Credential)}
@@ -160,8 +159,7 @@ defmodule Twilio.Api.V2010.SIP.CredentialList.CredentialService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/SIP/CredentialLists/#{credential_list_sid}/Credentials/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

@@ -24,10 +24,13 @@ defmodule Twilio.Chat.V2.Service.User.BindingService do
   @spec list(Client.t(), String.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, service_sid, user_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Services/#{service_sid}/Users/#{user_sid}/Bindings",
-           params: params,
-           opts: opts,
-           base_url: "https://chat.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Services/#{service_sid}/Users/#{user_sid}/Bindings",
+           opts
+           |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "bindings")
@@ -74,8 +77,7 @@ defmodule Twilio.Chat.V2.Service.User.BindingService do
              client,
              :get,
              "/v2/Services/#{service_sid}/Users/#{user_sid}/Bindings/#{sid}",
-             opts: opts,
-             base_url: "https://chat.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Service.User.Binding)}
     end
@@ -93,8 +95,7 @@ defmodule Twilio.Chat.V2.Service.User.BindingService do
       client,
       :delete,
       "/v2/Services/#{service_sid}/Users/#{user_sid}/Bindings/#{sid}",
-      opts: opts,
-      base_url: "https://chat.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
     )
   end
 end

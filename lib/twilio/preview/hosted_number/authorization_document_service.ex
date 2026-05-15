@@ -25,10 +25,13 @@ defmodule Twilio.Preview.HostedNumber.AuthorizationDocumentService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/HostedNumbers/AuthorizationDocuments",
-           params: params,
-           opts: opts,
-           base_url: "https://preview.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/HostedNumbers/AuthorizationDocuments",
+           opts
+           |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "items")
@@ -92,11 +95,14 @@ defmodule Twilio.Preview.HostedNumber.AuthorizationDocumentService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/HostedNumbers/AuthorizationDocuments",
-             params: params,
-             opts: opts,
-             base_url: "https://preview.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/HostedNumbers/AuthorizationDocuments",
+             opts
+             |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Preview.HostedNumber.AuthorizationDocument)}
@@ -115,9 +121,11 @@ defmodule Twilio.Preview.HostedNumber.AuthorizationDocumentService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/HostedNumbers/AuthorizationDocuments/#{sid}",
-             opts: opts,
-             base_url: "https://preview.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/HostedNumbers/AuthorizationDocuments/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://preview.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Preview.HostedNumber.AuthorizationDocument)}
@@ -152,11 +160,14 @@ defmodule Twilio.Preview.HostedNumber.AuthorizationDocumentService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/HostedNumbers/AuthorizationDocuments/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://preview.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/HostedNumbers/AuthorizationDocuments/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Preview.HostedNumber.AuthorizationDocument)}

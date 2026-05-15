@@ -17,10 +17,13 @@ defmodule Twilio.Marketplace.V1.AvailableAddOnService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/AvailableAddOns",
-           params: params,
-           opts: opts,
-           base_url: "https://marketplace.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/AvailableAddOns",
+           opts
+           |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "available_add_ons")
@@ -63,9 +66,11 @@ defmodule Twilio.Marketplace.V1.AvailableAddOnService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/AvailableAddOns/#{sid}",
-             opts: opts,
-             base_url: "https://marketplace.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/AvailableAddOns/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Marketplace.V1.AvailableAddOn)}
     end

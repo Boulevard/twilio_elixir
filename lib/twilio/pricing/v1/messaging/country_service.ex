@@ -17,10 +17,13 @@ defmodule Twilio.Pricing.V1.Messaging.CountryService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Messaging/Countries",
-           params: params,
-           opts: opts,
-           base_url: "https://pricing.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Messaging/Countries",
+           opts
+           |> Keyword.put_new(:base_url, "https://pricing.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "countries")
@@ -63,9 +66,11 @@ defmodule Twilio.Pricing.V1.Messaging.CountryService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Messaging/Countries/#{sid}",
-             opts: opts,
-             base_url: "https://pricing.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Messaging/Countries/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://pricing.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Pricing.V1.Messaging.Country)}
     end

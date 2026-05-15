@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.Recording.AddOnResultService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "add_on_results")
@@ -70,8 +70,7 @@ defmodule Twilio.Api.V2010.Recording.AddOnResultService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Recording.AddOnResult)}
     end
@@ -89,8 +88,7 @@ defmodule Twilio.Api.V2010.Recording.AddOnResultService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

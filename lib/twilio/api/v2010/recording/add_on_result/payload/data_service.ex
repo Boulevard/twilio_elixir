@@ -21,8 +21,7 @@ defmodule Twilio.Api.V2010.Recording.AddOnResult.Payload.DataService do
       :get,
       # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
       "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults/#{add_on_result_sid}/Payloads/#{payload_sid}/Data.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

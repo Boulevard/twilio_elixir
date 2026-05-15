@@ -21,9 +21,9 @@ defmodule Twilio.Conversations.V1.Service.Conversation.ParticipantService do
            client,
            :get,
            "/v1/Services/#{chat_service_sid}/Conversations/#{conversation_sid}/Participants",
-           params: params,
-           opts: opts,
-           base_url: "https://conversations.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "participants")
@@ -88,10 +88,10 @@ defmodule Twilio.Conversations.V1.Service.Conversation.ParticipantService do
              client,
              :post,
              "/v1/Services/#{chat_service_sid}/Conversations/#{conversation_sid}/Participants",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -117,8 +117,7 @@ defmodule Twilio.Conversations.V1.Service.Conversation.ParticipantService do
              client,
              :get,
              "/v1/Services/#{chat_service_sid}/Conversations/#{conversation_sid}/Participants/#{sid}",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -165,10 +164,10 @@ defmodule Twilio.Conversations.V1.Service.Conversation.ParticipantService do
              client,
              :post,
              "/v1/Services/#{chat_service_sid}/Conversations/#{conversation_sid}/Participants/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -190,8 +189,7 @@ defmodule Twilio.Conversations.V1.Service.Conversation.ParticipantService do
       client,
       :delete,
       "/v1/Services/#{chat_service_sid}/Conversations/#{conversation_sid}/Participants/#{sid}",
-      opts: opts,
-      base_url: "https://conversations.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
     )
   end
 end

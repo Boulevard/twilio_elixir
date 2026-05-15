@@ -28,9 +28,11 @@ defmodule Twilio.Preview.Wireless.Sim.UsageService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sim_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/wireless/Sims/#{sim_sid}/Usage",
-             opts: opts,
-             base_url: "https://preview.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/wireless/Sims/#{sim_sid}/Usage",
+             opts |> Keyword.put_new(:base_url, "https://preview.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Preview.Wireless.Sim.Usage)}
     end

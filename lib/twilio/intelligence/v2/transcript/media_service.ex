@@ -28,9 +28,11 @@ defmodule Twilio.Intelligence.V2.Transcript.MediaService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Transcripts/#{sid}/Media",
-             opts: opts,
-             base_url: "https://intelligence.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Transcripts/#{sid}/Media",
+             opts |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Intelligence.V2.Transcript.Media)}
     end

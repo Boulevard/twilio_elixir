@@ -63,11 +63,14 @@ defmodule Twilio.Verify.V2.Service.VerificationService do
           | {:error, Twilio.Error.t()}
   def create(client, service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Services/#{service_sid}/Verifications",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Services/#{service_sid}/Verifications",
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.Verification)}
     end
@@ -85,9 +88,11 @@ defmodule Twilio.Verify.V2.Service.VerificationService do
           | {:error, Twilio.Error.t()}
   def fetch(client, service_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Services/#{service_sid}/Verifications/#{sid}",
-             opts: opts,
-             base_url: "https://verify.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Services/#{service_sid}/Verifications/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.Verification)}
     end
@@ -111,11 +116,14 @@ defmodule Twilio.Verify.V2.Service.VerificationService do
           | {:error, Twilio.Error.t()}
   def update(client, service_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Services/#{service_sid}/Verifications/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Services/#{service_sid}/Verifications/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.Verification)}
     end

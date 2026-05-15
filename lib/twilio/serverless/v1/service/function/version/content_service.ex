@@ -25,8 +25,7 @@ defmodule Twilio.Serverless.V1.Service.Function.Version.ContentService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Functions/#{function_sid}/Versions/#{sid}/Content",
-             opts: opts,
-             base_url: "https://serverless.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

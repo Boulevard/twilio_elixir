@@ -21,11 +21,14 @@ defmodule Twilio.Video.V1.Room.Participant.AnonymizeService do
           | {:error, Twilio.Error.t()}
   def update(client, room_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Rooms/#{room_sid}/Participants/#{sid}/Anonymize",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Rooms/#{room_sid}/Participants/#{sid}/Anonymize",
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.Room.Participant.Anonymize)}
     end

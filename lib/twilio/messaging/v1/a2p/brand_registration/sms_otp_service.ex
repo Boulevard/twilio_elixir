@@ -25,10 +25,10 @@ defmodule Twilio.Messaging.V1.A2p.BrandRegistration.SmsOtpService do
              client,
              :post,
              "/v1/a2p/BrandRegistrations/#{brand_registration_sid}/SmsOtp",
-             params: params,
-             opts: opts,
-             base_url: "https://messaging.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.A2p.BrandRegistration.SmsOtp)}

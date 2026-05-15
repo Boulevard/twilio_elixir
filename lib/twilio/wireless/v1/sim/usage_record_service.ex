@@ -28,10 +28,13 @@ defmodule Twilio.Wireless.V1.Sim.UsageRecordService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, sim_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Sims/#{sim_sid}/UsageRecords",
-           params: params,
-           opts: opts,
-           base_url: "https://wireless.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Sims/#{sim_sid}/UsageRecords",
+           opts
+           |> Keyword.put_new(:base_url, "https://wireless.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "usage_records")

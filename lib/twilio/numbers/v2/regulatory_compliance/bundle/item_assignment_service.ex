@@ -21,9 +21,9 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.ItemAssignmentService do
            client,
            :get,
            "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/ItemAssignments",
-           params: params,
-           opts: opts,
-           base_url: "https://numbers.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "results")
@@ -76,10 +76,10 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.ItemAssignmentService do
              client,
              :post,
              "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/ItemAssignments",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -105,8 +105,7 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.ItemAssignmentService do
              client,
              :get,
              "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/ItemAssignments/#{sid}",
-             opts: opts,
-             base_url: "https://numbers.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -128,8 +127,7 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.ItemAssignmentService do
       client,
       :delete,
       "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/ItemAssignments/#{sid}",
-      opts: opts,
-      base_url: "https://numbers.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
     )
   end
 end

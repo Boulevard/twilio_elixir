@@ -21,9 +21,11 @@ defmodule Twilio.Verify.V2.FormService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Forms/#{sid}",
-             opts: opts,
-             base_url: "https://verify.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Forms/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Form)}
     end

@@ -17,10 +17,13 @@ defmodule Twilio.Chat.V2.Service.User.ChannelService do
   @spec list(Client.t(), String.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, service_sid, user_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Services/#{service_sid}/Users/#{user_sid}/Channels",
-           params: params,
-           opts: opts,
-           base_url: "https://chat.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Services/#{service_sid}/Users/#{user_sid}/Channels",
+           opts
+           |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "channels")
@@ -67,8 +70,7 @@ defmodule Twilio.Chat.V2.Service.User.ChannelService do
              client,
              :get,
              "/v2/Services/#{service_sid}/Users/#{user_sid}/Channels/#{sid}",
-             opts: opts,
-             base_url: "https://chat.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Service.User.Channel)}
     end
@@ -100,10 +102,10 @@ defmodule Twilio.Chat.V2.Service.User.ChannelService do
              client,
              :post,
              "/v2/Services/#{service_sid}/Users/#{user_sid}/Channels/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://chat.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Service.User.Channel)}
     end
@@ -121,8 +123,7 @@ defmodule Twilio.Chat.V2.Service.User.ChannelService do
       client,
       :delete,
       "/v2/Services/#{service_sid}/Users/#{user_sid}/Channels/#{sid}",
-      opts: opts,
-      base_url: "https://chat.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
     )
   end
 end

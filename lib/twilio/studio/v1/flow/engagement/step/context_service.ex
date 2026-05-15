@@ -25,8 +25,7 @@ defmodule Twilio.Studio.V1.Flow.Engagement.Step.ContextService do
              client,
              :get,
              "/v1/Flows/#{flow_sid}/Engagements/#{engagement_sid}/Steps/#{step_sid}/Context",
-             opts: opts,
-             base_url: "https://studio.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://studio.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Studio.V1.Flow.Engagement.Step.Context)}
