@@ -33,9 +33,9 @@ defmodule Twilio.Api.V2010.Message.MediaService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Messages/#{message_sid}/Media.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "media_list")
@@ -79,8 +79,7 @@ defmodule Twilio.Api.V2010.Message.MediaService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Messages/#{message_sid}/Media/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Message.Media)}
     end
@@ -98,8 +97,7 @@ defmodule Twilio.Api.V2010.Message.MediaService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/Messages/#{message_sid}/Media/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

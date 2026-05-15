@@ -22,9 +22,9 @@ defmodule Twilio.Voice.V1.DialingPermission.Country.HighRiskSpecialPrefixeServic
            client,
            :get,
            "/v1/DialingPermissions/Countries/#{iso_code}/HighRiskSpecialPrefixes",
-           params: params,
-           opts: opts,
-           base_url: "https://voice.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://voice.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "content")

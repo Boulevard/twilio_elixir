@@ -58,9 +58,9 @@ defmodule Twilio.Api.V2010.AvailablePhoneNumber.MachineToMachineService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/AvailablePhoneNumbers/#{country_code}/MachineToMachine.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "available_phone_numbers")

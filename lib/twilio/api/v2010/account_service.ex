@@ -24,10 +24,13 @@ defmodule Twilio.Api.V2010.AccountService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/2010-04-01/Accounts.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/2010-04-01/Accounts.json",
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "accounts")
@@ -74,11 +77,14 @@ defmodule Twilio.Api.V2010.AccountService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/2010-04-01/Accounts.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/2010-04-01/Accounts.json",
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Account)}
     end
@@ -96,9 +102,11 @@ defmodule Twilio.Api.V2010.AccountService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/2010-04-01/Accounts/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/2010-04-01/Accounts/#{sid}.json",
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Account)}
     end
@@ -123,11 +131,14 @@ defmodule Twilio.Api.V2010.AccountService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/2010-04-01/Accounts/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/2010-04-01/Accounts/#{sid}.json",
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Account)}
     end

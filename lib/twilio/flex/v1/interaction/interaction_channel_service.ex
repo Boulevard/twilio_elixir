@@ -17,10 +17,13 @@ defmodule Twilio.Flex.V1.Interaction.InteractionChannelService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, interaction_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Interactions/#{interaction_sid}/Channels",
-           params: params,
-           opts: opts,
-           base_url: "https://flex-api.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Interactions/#{interaction_sid}/Channels",
+           opts
+           |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "channels")
@@ -63,9 +66,11 @@ defmodule Twilio.Flex.V1.Interaction.InteractionChannelService do
           | {:error, Twilio.Error.t()}
   def fetch(client, interaction_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Interactions/#{interaction_sid}/Channels/#{sid}",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Interactions/#{interaction_sid}/Channels/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Interaction.InteractionChannel)}
@@ -96,11 +101,14 @@ defmodule Twilio.Flex.V1.Interaction.InteractionChannelService do
           | {:error, Twilio.Error.t()}
   def update(client, interaction_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Interactions/#{interaction_sid}/Channels/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Interactions/#{interaction_sid}/Channels/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Interaction.InteractionChannel)}

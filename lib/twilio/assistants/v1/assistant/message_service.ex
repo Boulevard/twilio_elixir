@@ -21,11 +21,14 @@ defmodule Twilio.Assistants.V1.Assistant.MessageService do
           | {:error, Twilio.Error.t()}
   def create(client, id, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Assistants/#{id}/Messages",
-             params: params,
-             opts: opts,
-             base_url: "https://assistants.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/Assistants/#{id}/Messages",
+             opts
+             |> Keyword.put_new(:base_url, "https://assistants.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Assistants.V1.Assistant.Message)}
     end

@@ -28,9 +28,9 @@ defmodule Twilio.Messaging.V1.Service.Compliance.Usa2p.UsecaseService do
            client,
            :get,
            "/v1/Services/#{messaging_service_sid}/Compliance/Usa2p/Usecases",
-           params: params,
-           opts: opts,
-           base_url: "https://messaging.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "usecases")

@@ -21,9 +21,11 @@ defmodule Twilio.Conversations.V1.Service.ConfigurationService do
           | {:error, Twilio.Error.t()}
   def fetch(client, chat_service_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Services/#{chat_service_sid}/Configuration",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Services/#{chat_service_sid}/Configuration",
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.Service.Configuration)}
@@ -55,11 +57,14 @@ defmodule Twilio.Conversations.V1.Service.ConfigurationService do
           | {:error, Twilio.Error.t()}
   def update(client, chat_service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Services/#{chat_service_sid}/Configuration",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Services/#{chat_service_sid}/Configuration",
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.Service.Configuration)}

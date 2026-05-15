@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.SigningKeyService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/SigningKeys.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "signing_keys")
@@ -74,10 +74,10 @@ defmodule Twilio.Api.V2010.SigningKeyService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/SigningKeys.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SigningKey)}
     end
@@ -99,8 +99,7 @@ defmodule Twilio.Api.V2010.SigningKeyService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/SigningKeys/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SigningKey)}
     end
@@ -128,10 +127,10 @@ defmodule Twilio.Api.V2010.SigningKeyService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/SigningKeys/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SigningKey)}
     end
@@ -149,8 +148,7 @@ defmodule Twilio.Api.V2010.SigningKeyService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/SigningKeys/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

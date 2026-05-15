@@ -17,10 +17,13 @@ defmodule Twilio.Studio.V2.FlowService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Flows",
-           params: params,
-           opts: opts,
-           base_url: "https://studio.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Flows",
+           opts
+           |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "flows")
@@ -72,11 +75,14 @@ defmodule Twilio.Studio.V2.FlowService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Flows",
-             params: params,
-             opts: opts,
-             base_url: "https://studio.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Flows",
+             opts
+             |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow)}
     end
@@ -94,9 +100,11 @@ defmodule Twilio.Studio.V2.FlowService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Flows/#{sid}",
-             opts: opts,
-             base_url: "https://studio.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Flows/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://studio.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow)}
     end
@@ -127,11 +135,14 @@ defmodule Twilio.Studio.V2.FlowService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Flows/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://studio.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Flows/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V2.Flow)}
     end
@@ -145,9 +156,11 @@ defmodule Twilio.Studio.V2.FlowService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v2/Flows/#{sid}",
-      opts: opts,
-      base_url: "https://studio.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v2/Flows/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://studio.twilio.com")
     )
   end
 end

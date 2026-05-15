@@ -21,9 +21,9 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionChannelInviteService do
            client,
            :get,
            "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Invites",
-           params: params,
-           opts: opts,
-           base_url: "https://flex-api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "invites")
@@ -76,10 +76,10 @@ defmodule Twilio.Flex.V1.Interaction.Channel.InteractionChannelInviteService do
              client,
              :post,
              "/v1/Interactions/#{interaction_sid}/Channels/#{channel_sid}/Invites",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

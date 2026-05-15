@@ -21,9 +21,11 @@ defmodule Twilio.Knowledge.V1.Knowledge.StatusService do
           | {:error, Twilio.Error.t()}
   def fetch(client, id, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Knowledge/#{id}/Status",
-             opts: opts,
-             base_url: "https://knowledge.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Knowledge/#{id}/Status",
+             opts |> Keyword.put_new(:base_url, "https://knowledge.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Knowledge.V1.Knowledge.Status)}
     end

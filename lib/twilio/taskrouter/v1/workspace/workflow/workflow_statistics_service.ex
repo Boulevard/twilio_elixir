@@ -40,8 +40,7 @@ defmodule Twilio.Taskrouter.V1.Workspace.Workflow.WorkflowStatisticsService do
              client,
              :get,
              "/v1/Workspaces/#{workspace_sid}/Workflows/#{workflow_sid}/Statistics",
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

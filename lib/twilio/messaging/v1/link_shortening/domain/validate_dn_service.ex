@@ -21,9 +21,11 @@ defmodule Twilio.Messaging.V1.LinkShortening.Domain.ValidateDnService do
           | {:error, Twilio.Error.t()}
   def fetch(client, domain_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/LinkShortening/Domains/#{domain_sid}/ValidateDns",
-             opts: opts,
-             base_url: "https://messaging.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/LinkShortening/Domains/#{domain_sid}/ValidateDns",
+             opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

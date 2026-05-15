@@ -21,9 +21,9 @@ defmodule Twilio.Serverless.V1.Service.Environment.DeploymentService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Deployments",
-           params: params,
-           opts: opts,
-           base_url: "https://serverless.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "deployments")
@@ -77,10 +77,10 @@ defmodule Twilio.Serverless.V1.Service.Environment.DeploymentService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Deployments",
-             params: params,
-             opts: opts,
-             base_url: "https://serverless.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -106,8 +106,7 @@ defmodule Twilio.Serverless.V1.Service.Environment.DeploymentService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Deployments/#{sid}",
-             opts: opts,
-             base_url: "https://serverless.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

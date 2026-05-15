@@ -17,10 +17,13 @@ defmodule Twilio.Api.V2010.KeyService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/2010-04-01/Accounts/#{client.account_sid}/Keys.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/2010-04-01/Accounts/#{client.account_sid}/Keys.json",
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "keys")
@@ -66,11 +69,14 @@ defmodule Twilio.Api.V2010.KeyService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/2010-04-01/Accounts/#{client.account_sid}/Keys.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/2010-04-01/Accounts/#{client.account_sid}/Keys.json",
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Key)}
     end
@@ -92,8 +98,7 @@ defmodule Twilio.Api.V2010.KeyService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Keys/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Key)}
     end
@@ -122,10 +127,10 @@ defmodule Twilio.Api.V2010.KeyService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Keys/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Key)}
     end
@@ -139,9 +144,11 @@ defmodule Twilio.Api.V2010.KeyService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/2010-04-01/Accounts/#{client.account_sid}/Keys/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/2010-04-01/Accounts/#{client.account_sid}/Keys/#{sid}.json",
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

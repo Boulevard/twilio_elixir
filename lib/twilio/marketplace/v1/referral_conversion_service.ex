@@ -27,11 +27,14 @@ defmodule Twilio.Marketplace.V1.ReferralConversionService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/ReferralConversion",
-             params: params,
-             opts: opts,
-             base_url: "https://marketplace.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/ReferralConversion",
+             opts
+             |> Keyword.put_new(:base_url, "https://marketplace.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Marketplace.V1.ReferralConversion)}
     end

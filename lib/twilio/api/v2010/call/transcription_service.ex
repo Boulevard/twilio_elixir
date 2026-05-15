@@ -58,10 +58,10 @@ defmodule Twilio.Api.V2010.Call.TranscriptionService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Calls/#{call_sid}/Transcriptions.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Call.Transcription)}
     end
@@ -89,10 +89,10 @@ defmodule Twilio.Api.V2010.Call.TranscriptionService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Calls/#{call_sid}/Transcriptions/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Call.Transcription)}
     end

@@ -28,9 +28,9 @@ defmodule Twilio.Trusthub.V1.CustomerProfile.ChannelEndpointAssignmentService do
            client,
            :get,
            "/v1/CustomerProfiles/#{customer_profile_sid}/ChannelEndpointAssignments",
-           params: params,
-           opts: opts,
-           base_url: "https://trusthub.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "results")
@@ -85,10 +85,10 @@ defmodule Twilio.Trusthub.V1.CustomerProfile.ChannelEndpointAssignmentService do
              client,
              :post,
              "/v1/CustomerProfiles/#{customer_profile_sid}/ChannelEndpointAssignments",
-             params: params,
-             opts: opts,
-             base_url: "https://trusthub.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -114,8 +114,7 @@ defmodule Twilio.Trusthub.V1.CustomerProfile.ChannelEndpointAssignmentService do
              client,
              :get,
              "/v1/CustomerProfiles/#{customer_profile_sid}/ChannelEndpointAssignments/#{sid}",
-             opts: opts,
-             base_url: "https://trusthub.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -138,8 +137,7 @@ defmodule Twilio.Trusthub.V1.CustomerProfile.ChannelEndpointAssignmentService do
       client,
       :delete,
       "/v1/CustomerProfiles/#{customer_profile_sid}/ChannelEndpointAssignments/#{sid}",
-      opts: opts,
-      base_url: "https://trusthub.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
     )
   end
 end

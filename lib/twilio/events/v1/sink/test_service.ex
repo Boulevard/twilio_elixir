@@ -21,11 +21,14 @@ defmodule Twilio.Events.V1.Sink.TestService do
           | {:error, Twilio.Error.t()}
   def create(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Sinks/#{sid}/Test",
-             params: params,
-             opts: opts,
-             base_url: "https://events.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Sinks/#{sid}/Test",
+             opts
+             |> Keyword.put_new(:base_url, "https://events.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Events.V1.Sink.Test)}
     end

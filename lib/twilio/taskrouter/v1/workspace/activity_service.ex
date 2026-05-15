@@ -25,10 +25,13 @@ defmodule Twilio.Taskrouter.V1.Workspace.ActivityService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, workspace_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Workspaces/#{workspace_sid}/Activities",
-           params: params,
-           opts: opts,
-           base_url: "https://taskrouter.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Workspaces/#{workspace_sid}/Activities",
+           opts
+           |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "activities")
@@ -84,11 +87,14 @@ defmodule Twilio.Taskrouter.V1.Workspace.ActivityService do
           | {:error, Twilio.Error.t()}
   def create(client, workspace_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Workspaces/#{workspace_sid}/Activities",
-             params: params,
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Workspaces/#{workspace_sid}/Activities",
+             opts
+             |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Activity)}
     end
@@ -106,9 +112,11 @@ defmodule Twilio.Taskrouter.V1.Workspace.ActivityService do
           | {:error, Twilio.Error.t()}
   def fetch(client, workspace_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Workspaces/#{workspace_sid}/Activities/#{sid}",
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Workspaces/#{workspace_sid}/Activities/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Activity)}
     end
@@ -133,11 +141,14 @@ defmodule Twilio.Taskrouter.V1.Workspace.ActivityService do
           | {:error, Twilio.Error.t()}
   def update(client, workspace_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Workspaces/#{workspace_sid}/Activities/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Workspaces/#{workspace_sid}/Activities/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Activity)}
     end
@@ -151,9 +162,11 @@ defmodule Twilio.Taskrouter.V1.Workspace.ActivityService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, workspace_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Workspaces/#{workspace_sid}/Activities/#{sid}",
-      opts: opts,
-      base_url: "https://taskrouter.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Workspaces/#{workspace_sid}/Activities/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
     )
   end
 end

@@ -22,9 +22,9 @@ defmodule Twilio.Api.V2010.IncomingPhoneNumber.AssignedAddOn.AssignedAddOnExtens
            :get,
            # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
            "/2010-04-01/Accounts/#{client.account_sid}/IncomingPhoneNumbers/#{resource_sid}/AssignedAddOns/#{assigned_add_on_sid}/Extensions.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "extensions")
@@ -73,8 +73,7 @@ defmodule Twilio.Api.V2010.IncomingPhoneNumber.AssignedAddOn.AssignedAddOnExtens
              :get,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/2010-04-01/Accounts/#{client.account_sid}/IncomingPhoneNumbers/#{resource_sid}/AssignedAddOns/#{assigned_add_on_sid}/Extensions/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

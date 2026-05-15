@@ -26,10 +26,10 @@ defmodule Twilio.Numbers.V1.SenderIdRegistration.EmbeddedSessionService do
              client,
              :post,
              "/v1/SenderIdRegistrations/#{bundle_sid}/EmbeddedSessions",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :json
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

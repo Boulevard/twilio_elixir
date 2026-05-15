@@ -29,9 +29,11 @@ defmodule Twilio.Numbers.V1.Porting.Portability.PhoneNumberService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Porting/Portability/PhoneNumber/#{sid}",
-             opts: opts,
-             base_url: "https://numbers.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Porting/Portability/PhoneNumber/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.Porting.Portability.PhoneNumber)}

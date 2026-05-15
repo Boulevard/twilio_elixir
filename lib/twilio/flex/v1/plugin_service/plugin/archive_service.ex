@@ -21,11 +21,14 @@ defmodule Twilio.Flex.V1.PluginService.Plugin.ArchiveService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/PluginService/Plugins/#{sid}/Archive",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/PluginService/Plugins/#{sid}/Archive",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Flex.V1.PluginService.Plugin.Archive)}
     end

@@ -25,10 +25,10 @@ defmodule Twilio.Messaging.V1.LinkShortening.Domain.MessagingServiceService do
              client,
              :post,
              "/v1/LinkShortening/Domains/#{domain_sid}/MessagingServices/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://messaging.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -50,8 +50,7 @@ defmodule Twilio.Messaging.V1.LinkShortening.Domain.MessagingServiceService do
       client,
       :delete,
       "/v1/LinkShortening/Domains/#{domain_sid}/MessagingServices/#{sid}",
-      opts: opts,
-      base_url: "https://messaging.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
     )
   end
 end

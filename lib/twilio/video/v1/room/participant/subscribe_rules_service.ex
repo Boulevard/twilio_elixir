@@ -21,9 +21,9 @@ defmodule Twilio.Video.V1.Room.Participant.SubscribeRulesService do
            client,
            :get,
            "/v1/Rooms/#{room_sid}/Participants/#{participant_sid}/SubscribeRules",
-           params: params,
-           opts: opts,
-           base_url: "https://video.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://video.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "subscriberules")
@@ -77,10 +77,10 @@ defmodule Twilio.Video.V1.Room.Participant.SubscribeRulesService do
              client,
              :post,
              "/v1/Rooms/#{room_sid}/Participants/#{participant_sid}/SubscribeRules",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Video.V1.Room.Participant.SubscribeRules)}

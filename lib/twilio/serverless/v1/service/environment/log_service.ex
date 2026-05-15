@@ -31,9 +31,9 @@ defmodule Twilio.Serverless.V1.Service.Environment.LogService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Logs",
-           params: params,
-           opts: opts,
-           base_url: "https://serverless.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "logs")
@@ -80,8 +80,7 @@ defmodule Twilio.Serverless.V1.Service.Environment.LogService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Logs/#{sid}",
-             opts: opts,
-             base_url: "https://serverless.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Serverless.V1.Service.Environment.Log)}

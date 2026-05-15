@@ -21,9 +21,11 @@ defmodule Twilio.Trunking.V1.Trunk.RecordingService do
           | {:error, Twilio.Error.t()}
   def fetch(client, trunk_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Trunks/#{trunk_sid}/Recording",
-             opts: opts,
-             base_url: "https://trunking.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Trunks/#{trunk_sid}/Recording",
+             opts |> Keyword.put_new(:base_url, "https://trunking.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Trunking.V1.Trunk.Recording)}
     end
@@ -49,11 +51,14 @@ defmodule Twilio.Trunking.V1.Trunk.RecordingService do
           | {:error, Twilio.Error.t()}
   def update(client, trunk_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Trunks/#{trunk_sid}/Recording",
-             params: params,
-             opts: opts,
-             base_url: "https://trunking.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Trunks/#{trunk_sid}/Recording",
+             opts
+             |> Keyword.put_new(:base_url, "https://trunking.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Trunking.V1.Trunk.Recording)}
     end

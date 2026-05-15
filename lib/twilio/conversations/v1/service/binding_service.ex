@@ -27,10 +27,13 @@ defmodule Twilio.Conversations.V1.Service.BindingService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, chat_service_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Services/#{chat_service_sid}/Bindings",
-           params: params,
-           opts: opts,
-           base_url: "https://conversations.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Services/#{chat_service_sid}/Bindings",
+           opts
+           |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "bindings")
@@ -73,9 +76,11 @@ defmodule Twilio.Conversations.V1.Service.BindingService do
           | {:error, Twilio.Error.t()}
   def fetch(client, chat_service_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Services/#{chat_service_sid}/Bindings/#{sid}",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Services/#{chat_service_sid}/Bindings/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.Service.Binding)}
     end
@@ -89,9 +94,11 @@ defmodule Twilio.Conversations.V1.Service.BindingService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, chat_service_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Services/#{chat_service_sid}/Bindings/#{sid}",
-      opts: opts,
-      base_url: "https://conversations.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Services/#{chat_service_sid}/Bindings/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
     )
   end
 end

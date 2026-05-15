@@ -17,10 +17,13 @@ defmodule Twilio.Verify.V2.Service.RateLimitService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, service_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Services/#{service_sid}/RateLimits",
-           params: params,
-           opts: opts,
-           base_url: "https://verify.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Services/#{service_sid}/RateLimits",
+           opts
+           |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "rate_limits")
@@ -75,11 +78,14 @@ defmodule Twilio.Verify.V2.Service.RateLimitService do
           | {:error, Twilio.Error.t()}
   def create(client, service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Services/#{service_sid}/RateLimits",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Services/#{service_sid}/RateLimits",
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.RateLimit)}
     end
@@ -97,9 +103,11 @@ defmodule Twilio.Verify.V2.Service.RateLimitService do
           | {:error, Twilio.Error.t()}
   def fetch(client, service_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Services/#{service_sid}/RateLimits/#{sid}",
-             opts: opts,
-             base_url: "https://verify.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Services/#{service_sid}/RateLimits/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.RateLimit)}
     end
@@ -123,11 +131,14 @@ defmodule Twilio.Verify.V2.Service.RateLimitService do
           | {:error, Twilio.Error.t()}
   def update(client, service_sid, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Services/#{service_sid}/RateLimits/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Services/#{service_sid}/RateLimits/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.RateLimit)}
     end
@@ -141,9 +152,11 @@ defmodule Twilio.Verify.V2.Service.RateLimitService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, service_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v2/Services/#{service_sid}/RateLimits/#{sid}",
-      opts: opts,
-      base_url: "https://verify.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v2/Services/#{service_sid}/RateLimits/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
     )
   end
 end

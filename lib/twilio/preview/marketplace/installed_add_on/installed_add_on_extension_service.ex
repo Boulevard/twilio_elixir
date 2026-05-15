@@ -21,9 +21,9 @@ defmodule Twilio.Preview.Marketplace.InstalledAddOn.InstalledAddOnExtensionServi
            client,
            :get,
            "/marketplace/InstalledAddOns/#{installed_add_on_sid}/Extensions",
-           params: params,
-           opts: opts,
-           base_url: "https://preview.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "extensions")
@@ -70,8 +70,7 @@ defmodule Twilio.Preview.Marketplace.InstalledAddOn.InstalledAddOnExtensionServi
              client,
              :get,
              "/marketplace/InstalledAddOns/#{installed_add_on_sid}/Extensions/#{sid}",
-             opts: opts,
-             base_url: "https://preview.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://preview.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -103,10 +102,10 @@ defmodule Twilio.Preview.Marketplace.InstalledAddOn.InstalledAddOnExtensionServi
              client,
              :post,
              "/marketplace/InstalledAddOns/#{installed_add_on_sid}/Extensions/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://preview.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

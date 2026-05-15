@@ -57,11 +57,14 @@ defmodule Twilio.Notify.V1.Service.NotificationService do
           | {:error, Twilio.Error.t()}
   def create(client, service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Services/#{service_sid}/Notifications",
-             params: params,
-             opts: opts,
-             base_url: "https://notify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Services/#{service_sid}/Notifications",
+             opts
+             |> Keyword.put_new(:base_url, "https://notify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Notify.V1.Service.Notification)}
     end

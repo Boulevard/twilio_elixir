@@ -21,9 +21,11 @@ defmodule Twilio.Intelligence.V2.Service.OperatorAttachmentsService do
           | {:error, Twilio.Error.t()}
   def fetch(client, service_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Services/#{service_sid}/Operators",
-             opts: opts,
-             base_url: "https://intelligence.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Services/#{service_sid}/Operators",
+             opts |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

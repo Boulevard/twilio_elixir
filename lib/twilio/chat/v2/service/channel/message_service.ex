@@ -28,9 +28,9 @@ defmodule Twilio.Chat.V2.Service.Channel.MessageService do
            client,
            :get,
            "/v2/Services/#{service_sid}/Channels/#{channel_sid}/Messages",
-           params: params,
-           opts: opts,
-           base_url: "https://chat.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "messages")
@@ -95,10 +95,10 @@ defmodule Twilio.Chat.V2.Service.Channel.MessageService do
              client,
              :post,
              "/v2/Services/#{service_sid}/Channels/#{channel_sid}/Messages",
-             params: params,
-             opts: opts,
-             base_url: "https://chat.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Service.Channel.Message)}
     end
@@ -120,8 +120,7 @@ defmodule Twilio.Chat.V2.Service.Channel.MessageService do
              client,
              :get,
              "/v2/Services/#{service_sid}/Channels/#{channel_sid}/Messages/#{sid}",
-             opts: opts,
-             base_url: "https://chat.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Service.Channel.Message)}
     end
@@ -158,10 +157,10 @@ defmodule Twilio.Chat.V2.Service.Channel.MessageService do
              client,
              :post,
              "/v2/Services/#{service_sid}/Channels/#{channel_sid}/Messages/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://chat.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Service.Channel.Message)}
     end
@@ -179,8 +178,7 @@ defmodule Twilio.Chat.V2.Service.Channel.MessageService do
       client,
       :delete,
       "/v2/Services/#{service_sid}/Channels/#{channel_sid}/Messages/#{sid}",
-      opts: opts,
-      base_url: "https://chat.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
     )
   end
 end

@@ -25,8 +25,7 @@ defmodule Twilio.Numbers.V1.Porting.PortIn.PhoneNumberService do
              client,
              :get,
              "/v1/Porting/PortIn/#{port_in_request_sid}/PhoneNumber/#{sid}",
-             opts: opts,
-             base_url: "https://numbers.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.Porting.PortIn.PhoneNumber)}
@@ -45,8 +44,7 @@ defmodule Twilio.Numbers.V1.Porting.PortIn.PhoneNumberService do
       client,
       :delete,
       "/v1/Porting/PortIn/#{port_in_request_sid}/PhoneNumber/#{sid}",
-      opts: opts,
-      base_url: "https://numbers.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
     )
   end
 end

@@ -26,10 +26,13 @@ defmodule Twilio.Events.V1.SinkService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Sinks",
-           params: params,
-           opts: opts,
-           base_url: "https://events.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Sinks",
+           opts
+           |> Keyword.put_new(:base_url, "https://events.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "sinks")
@@ -78,11 +81,14 @@ defmodule Twilio.Events.V1.SinkService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Sinks",
-             params: params,
-             opts: opts,
-             base_url: "https://events.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Sinks",
+             opts
+             |> Keyword.put_new(:base_url, "https://events.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Events.V1.Sink)}
     end
@@ -100,9 +106,11 @@ defmodule Twilio.Events.V1.SinkService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Sinks/#{sid}",
-             opts: opts,
-             base_url: "https://events.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Sinks/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://events.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Events.V1.Sink)}
     end
@@ -126,11 +134,14 @@ defmodule Twilio.Events.V1.SinkService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Sinks/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://events.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Sinks/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://events.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Events.V1.Sink)}
     end
@@ -144,9 +155,11 @@ defmodule Twilio.Events.V1.SinkService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Sinks/#{sid}",
-      opts: opts,
-      base_url: "https://events.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Sinks/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://events.twilio.com")
     )
   end
 end

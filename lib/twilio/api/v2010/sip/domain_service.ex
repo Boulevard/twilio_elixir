@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.SIP.DomainService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "domains")
@@ -101,10 +101,10 @@ defmodule Twilio.Api.V2010.SIP.DomainService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.Domain)}
     end
@@ -126,8 +126,7 @@ defmodule Twilio.Api.V2010.SIP.DomainService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.Domain)}
     end
@@ -178,10 +177,10 @@ defmodule Twilio.Api.V2010.SIP.DomainService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.SIP.Domain)}
     end
@@ -199,8 +198,7 @@ defmodule Twilio.Api.V2010.SIP.DomainService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/SIP/Domains/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

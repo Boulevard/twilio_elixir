@@ -21,9 +21,11 @@ defmodule Twilio.Serverless.V1.Service.Build.StatusService do
           | {:error, Twilio.Error.t()}
   def fetch(client, service_sid, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Services/#{service_sid}/Builds/#{sid}/Status",
-             opts: opts,
-             base_url: "https://serverless.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Services/#{service_sid}/Builds/#{sid}/Status",
+             opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Serverless.V1.Service.Build.Status)}
     end

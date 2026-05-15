@@ -17,10 +17,13 @@ defmodule Twilio.Voice.V1.ConnectionPolicy.ConnectionPolicyTargetService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, connection_policy_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/ConnectionPolicies/#{connection_policy_sid}/Targets",
-           params: params,
-           opts: opts,
-           base_url: "https://voice.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/ConnectionPolicies/#{connection_policy_sid}/Targets",
+           opts
+           |> Keyword.put_new(:base_url, "https://voice.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "targets")
@@ -85,10 +88,10 @@ defmodule Twilio.Voice.V1.ConnectionPolicy.ConnectionPolicyTargetService do
              client,
              :post,
              "/v1/ConnectionPolicies/#{connection_policy_sid}/Targets",
-             params: params,
-             opts: opts,
-             base_url: "https://voice.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://voice.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -114,8 +117,7 @@ defmodule Twilio.Voice.V1.ConnectionPolicy.ConnectionPolicyTargetService do
              client,
              :get,
              "/v1/ConnectionPolicies/#{connection_policy_sid}/Targets/#{sid}",
-             opts: opts,
-             base_url: "https://voice.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://voice.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -155,10 +157,10 @@ defmodule Twilio.Voice.V1.ConnectionPolicy.ConnectionPolicyTargetService do
              client,
              :post,
              "/v1/ConnectionPolicies/#{connection_policy_sid}/Targets/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://voice.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://voice.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -180,8 +182,7 @@ defmodule Twilio.Voice.V1.ConnectionPolicy.ConnectionPolicyTargetService do
       client,
       :delete,
       "/v1/ConnectionPolicies/#{connection_policy_sid}/Targets/#{sid}",
-      opts: opts,
-      base_url: "https://voice.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://voice.twilio.com")
     )
   end
 end

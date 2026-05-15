@@ -21,9 +21,9 @@ defmodule Twilio.Supersim.V1.NetworkAccessProfile.NetworkAccessProfileNetworkSer
            client,
            :get,
            "/v1/NetworkAccessProfiles/#{network_access_profile_sid}/Networks",
-           params: params,
-           opts: opts,
-           base_url: "https://supersim.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://supersim.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "networks")
@@ -76,10 +76,10 @@ defmodule Twilio.Supersim.V1.NetworkAccessProfile.NetworkAccessProfileNetworkSer
              client,
              :post,
              "/v1/NetworkAccessProfiles/#{network_access_profile_sid}/Networks",
-             params: params,
-             opts: opts,
-             base_url: "https://supersim.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://supersim.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -105,8 +105,7 @@ defmodule Twilio.Supersim.V1.NetworkAccessProfile.NetworkAccessProfileNetworkSer
              client,
              :get,
              "/v1/NetworkAccessProfiles/#{network_access_profile_sid}/Networks/#{sid}",
-             opts: opts,
-             base_url: "https://supersim.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://supersim.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -128,8 +127,7 @@ defmodule Twilio.Supersim.V1.NetworkAccessProfile.NetworkAccessProfileNetworkSer
       client,
       :delete,
       "/v1/NetworkAccessProfiles/#{network_access_profile_sid}/Networks/#{sid}",
-      opts: opts,
-      base_url: "https://supersim.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://supersim.twilio.com")
     )
   end
 end

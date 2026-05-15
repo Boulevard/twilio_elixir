@@ -16,9 +16,11 @@ defmodule Twilio.Voice.V1.Archive.CallService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, date, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Archives/#{date}/Calls/#{sid}",
-      opts: opts,
-      base_url: "https://voice.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Archives/#{date}/Calls/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://voice.twilio.com")
     )
   end
 end

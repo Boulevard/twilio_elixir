@@ -17,10 +17,13 @@ defmodule Twilio.Verify.V2.Service.MessagingConfigurationService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, service_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Services/#{service_sid}/MessagingConfigurations",
-           params: params,
-           opts: opts,
-           base_url: "https://verify.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Services/#{service_sid}/MessagingConfigurations",
+           opts
+           |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "messaging_configurations")
@@ -72,11 +75,14 @@ defmodule Twilio.Verify.V2.Service.MessagingConfigurationService do
           | {:error, Twilio.Error.t()}
   def create(client, service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Services/#{service_sid}/MessagingConfigurations",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Services/#{service_sid}/MessagingConfigurations",
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.MessagingConfiguration)}
@@ -99,8 +105,7 @@ defmodule Twilio.Verify.V2.Service.MessagingConfigurationService do
              client,
              :get,
              "/v2/Services/#{service_sid}/MessagingConfigurations/#{sid}",
-             opts: opts,
-             base_url: "https://verify.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.MessagingConfiguration)}
@@ -130,10 +135,10 @@ defmodule Twilio.Verify.V2.Service.MessagingConfigurationService do
              client,
              :post,
              "/v2/Services/#{service_sid}/MessagingConfigurations/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.MessagingConfiguration)}
@@ -148,9 +153,11 @@ defmodule Twilio.Verify.V2.Service.MessagingConfigurationService do
   @spec delete(Client.t(), String.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, service_sid, sid, opts \\ []) do
-    Client.request(client, :delete, "/v2/Services/#{service_sid}/MessagingConfigurations/#{sid}",
-      opts: opts,
-      base_url: "https://verify.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v2/Services/#{service_sid}/MessagingConfigurations/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
     )
   end
 end

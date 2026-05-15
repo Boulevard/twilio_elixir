@@ -40,10 +40,10 @@ defmodule Twilio.Api.V2010.Call.UserDefinedMessageSubscriptionService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Calls/#{call_sid}/UserDefinedMessageSubscriptions.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -65,8 +65,7 @@ defmodule Twilio.Api.V2010.Call.UserDefinedMessageSubscriptionService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/Calls/#{call_sid}/UserDefinedMessageSubscriptions/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

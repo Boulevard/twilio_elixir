@@ -33,10 +33,13 @@ defmodule Twilio.Voice.V1.DialingPermission.CountryService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/DialingPermissions/Countries",
-           params: params,
-           opts: opts,
-           base_url: "https://voice.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/DialingPermissions/Countries",
+           opts
+           |> Keyword.put_new(:base_url, "https://voice.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "content")
@@ -79,9 +82,11 @@ defmodule Twilio.Voice.V1.DialingPermission.CountryService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/DialingPermissions/Countries/#{sid}",
-             opts: opts,
-             base_url: "https://voice.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/DialingPermissions/Countries/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://voice.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Voice.V1.DialingPermission.Country)}
     end

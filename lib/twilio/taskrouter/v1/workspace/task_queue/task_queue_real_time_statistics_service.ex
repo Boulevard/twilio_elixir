@@ -33,8 +33,7 @@ defmodule Twilio.Taskrouter.V1.Workspace.TaskQueue.TaskQueueRealTimeStatisticsSe
              client,
              :get,
              "/v1/Workspaces/#{workspace_sid}/TaskQueues/#{task_queue_sid}/RealTimeStatistics",
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

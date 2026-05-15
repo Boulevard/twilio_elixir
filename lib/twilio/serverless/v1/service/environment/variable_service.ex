@@ -21,9 +21,9 @@ defmodule Twilio.Serverless.V1.Service.Environment.VariableService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Variables",
-           params: params,
-           opts: opts,
-           base_url: "https://serverless.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "variables")
@@ -78,10 +78,10 @@ defmodule Twilio.Serverless.V1.Service.Environment.VariableService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Variables",
-             params: params,
-             opts: opts,
-             base_url: "https://serverless.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Serverless.V1.Service.Environment.Variable)}
@@ -104,8 +104,7 @@ defmodule Twilio.Serverless.V1.Service.Environment.VariableService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Variables/#{sid}",
-             opts: opts,
-             base_url: "https://serverless.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Serverless.V1.Service.Environment.Variable)}
@@ -136,10 +135,10 @@ defmodule Twilio.Serverless.V1.Service.Environment.VariableService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Variables/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://serverless.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Serverless.V1.Service.Environment.Variable)}
@@ -158,8 +157,7 @@ defmodule Twilio.Serverless.V1.Service.Environment.VariableService do
       client,
       :delete,
       "/v1/Services/#{service_sid}/Environments/#{environment_sid}/Variables/#{sid}",
-      opts: opts,
-      base_url: "https://serverless.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
     )
   end
 end

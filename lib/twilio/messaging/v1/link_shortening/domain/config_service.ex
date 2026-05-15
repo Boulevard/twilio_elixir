@@ -21,9 +21,11 @@ defmodule Twilio.Messaging.V1.LinkShortening.Domain.ConfigService do
           | {:error, Twilio.Error.t()}
   def fetch(client, domain_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/LinkShortening/Domains/#{domain_sid}/Config",
-             opts: opts,
-             base_url: "https://messaging.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/LinkShortening/Domains/#{domain_sid}/Config",
+             opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.LinkShortening.Domain.Config)}
@@ -55,11 +57,14 @@ defmodule Twilio.Messaging.V1.LinkShortening.Domain.ConfigService do
           | {:error, Twilio.Error.t()}
   def update(client, domain_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/LinkShortening/Domains/#{domain_sid}/Config",
-             params: params,
-             opts: opts,
-             base_url: "https://messaging.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/LinkShortening/Domains/#{domain_sid}/Config",
+             opts
+             |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Messaging.V1.LinkShortening.Domain.Config)}

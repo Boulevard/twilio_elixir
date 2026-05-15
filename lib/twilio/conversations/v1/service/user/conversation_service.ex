@@ -22,9 +22,9 @@ defmodule Twilio.Conversations.V1.Service.User.ConversationService do
            client,
            :get,
            "/v1/Services/#{chat_service_sid}/Users/#{user_sid}/Conversations",
-           params: params,
-           opts: opts,
-           base_url: "https://conversations.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "conversations")
@@ -71,8 +71,7 @@ defmodule Twilio.Conversations.V1.Service.User.ConversationService do
              client,
              :get,
              "/v1/Services/#{chat_service_sid}/Users/#{user_sid}/Conversations/#{sid}",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.Service.User.Conversation)}
@@ -105,10 +104,10 @@ defmodule Twilio.Conversations.V1.Service.User.ConversationService do
              client,
              :post,
              "/v1/Services/#{chat_service_sid}/Users/#{user_sid}/Conversations/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.Service.User.Conversation)}
@@ -127,8 +126,7 @@ defmodule Twilio.Conversations.V1.Service.User.ConversationService do
       client,
       :delete,
       "/v1/Services/#{chat_service_sid}/Users/#{user_sid}/Conversations/#{sid}",
-      opts: opts,
-      base_url: "https://conversations.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
     )
   end
 end

@@ -36,11 +36,14 @@ defmodule Twilio.Verify.V2.Service.VerificationCheckService do
           | {:error, Twilio.Error.t()}
   def create(client, service_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Services/#{service_sid}/VerificationCheck",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Services/#{service_sid}/VerificationCheck",
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.VerificationCheck)}
     end

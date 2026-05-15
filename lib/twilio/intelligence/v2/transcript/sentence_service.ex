@@ -26,10 +26,13 @@ defmodule Twilio.Intelligence.V2.Transcript.SentenceService do
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, transcript_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Transcripts/#{transcript_sid}/Sentences",
-           params: params,
-           opts: opts,
-           base_url: "https://intelligence.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Transcripts/#{transcript_sid}/Sentences",
+           opts
+           |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "sentences")
@@ -79,9 +82,11 @@ defmodule Twilio.Intelligence.V2.Transcript.SentenceService do
           | {:error, Twilio.Error.t()}
   def fetch(client, transcript_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Transcripts/#{transcript_sid}/Sentences/Encrypted",
-             opts: opts,
-             base_url: "https://intelligence.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Transcripts/#{transcript_sid}/Sentences/Encrypted",
+             opts |> Keyword.put_new(:base_url, "https://intelligence.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Intelligence.V2.Transcript.Sentence)}
     end

@@ -22,9 +22,9 @@ defmodule Twilio.Api.V2010.Recording.AddOnResult.PayloadService do
            :get,
            # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
            "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults/#{add_on_result_sid}/Payloads.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "payloads")
@@ -72,8 +72,7 @@ defmodule Twilio.Api.V2010.Recording.AddOnResult.PayloadService do
              :get,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults/#{add_on_result_sid}/Payloads/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Recording.AddOnResult.Payload)}
@@ -93,8 +92,7 @@ defmodule Twilio.Api.V2010.Recording.AddOnResult.PayloadService do
       :delete,
       # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
       "/2010-04-01/Accounts/#{client.account_sid}/Recordings/#{reference_sid}/AddOnResults/#{add_on_result_sid}/Payloads/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

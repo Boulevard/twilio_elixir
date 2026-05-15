@@ -21,9 +21,11 @@ defmodule Twilio.Video.V1.RecordingSetting.RecordingSettingsService do
           | {:error, Twilio.Error.t()}
   def fetch(client, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/RecordingSettings/Default",
-             opts: opts,
-             base_url: "https://video.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/RecordingSettings/Default",
+             opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -64,11 +66,14 @@ defmodule Twilio.Video.V1.RecordingSetting.RecordingSettingsService do
           | {:error, Twilio.Error.t()}
   def update(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/RecordingSettings/Default",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/RecordingSettings/Default",
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

@@ -21,9 +21,9 @@ defmodule Twilio.Flex.V1.PluginService.Configuration.ConfiguredPluginService do
            client,
            :get,
            "/v1/PluginService/Configurations/#{configuration_sid}/Plugins",
-           params: params,
-           opts: opts,
-           base_url: "https://flex-api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "plugins")
@@ -70,8 +70,7 @@ defmodule Twilio.Flex.V1.PluginService.Configuration.ConfiguredPluginService do
              client,
              :get,
              "/v1/PluginService/Configurations/#{configuration_sid}/Plugins/#{sid}",
-             opts: opts,
-             base_url: "https://flex-api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

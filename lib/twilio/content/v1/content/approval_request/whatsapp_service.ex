@@ -21,11 +21,14 @@ defmodule Twilio.Content.V1.Content.ApprovalRequest.WhatsappService do
           | {:error, Twilio.Error.t()}
   def create(client, content_sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Content/#{content_sid}/ApprovalRequests/whatsapp",
-             params: params,
-             opts: opts,
-             base_url: "https://content.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/Content/#{content_sid}/ApprovalRequests/whatsapp",
+             opts
+             |> Keyword.put_new(:base_url, "https://content.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

@@ -34,9 +34,9 @@ defmodule Twilio.Api.V2010.Usage.Record.ThisMonthService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Usage/Records/ThisMonth.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "usage_records")

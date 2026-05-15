@@ -17,10 +17,13 @@ defmodule Twilio.Studio.V1.Flow.Engagement.StepService do
   @spec list(Client.t(), String.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, flow_sid, engagement_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Flows/#{flow_sid}/Engagements/#{engagement_sid}/Steps",
-           params: params,
-           opts: opts,
-           base_url: "https://studio.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Flows/#{flow_sid}/Engagements/#{engagement_sid}/Steps",
+           opts
+           |> Keyword.put_new(:base_url, "https://studio.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "steps")
@@ -67,8 +70,7 @@ defmodule Twilio.Studio.V1.Flow.Engagement.StepService do
              client,
              :get,
              "/v1/Flows/#{flow_sid}/Engagements/#{engagement_sid}/Steps/#{sid}",
-             opts: opts,
-             base_url: "https://studio.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://studio.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Studio.V1.Flow.Engagement.Step)}
     end

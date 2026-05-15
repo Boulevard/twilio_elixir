@@ -17,10 +17,13 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.CategoryService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Insights/QualityManagement/Categories",
-           params: params,
-           opts: opts,
-           base_url: "https://flex-api.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Insights/QualityManagement/Categories",
+           opts
+           |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "categories")
@@ -69,11 +72,14 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.CategoryService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Insights/QualityManagement/Categories",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Insights/QualityManagement/Categories",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Insight.QualityManagement.Category)}
@@ -98,11 +104,14 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.CategoryService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Insights/QualityManagement/Categories/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Insights/QualityManagement/Categories/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Flex.V1.Insight.QualityManagement.Category)}
@@ -117,9 +126,11 @@ defmodule Twilio.Flex.V1.Insight.QualityManagement.CategoryService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Insights/QualityManagement/Categories/#{sid}",
-      opts: opts,
-      base_url: "https://flex-api.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Insights/QualityManagement/Categories/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
     )
   end
 end

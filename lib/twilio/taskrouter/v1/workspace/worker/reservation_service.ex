@@ -28,9 +28,9 @@ defmodule Twilio.Taskrouter.V1.Workspace.Worker.ReservationService do
            client,
            :get,
            "/v1/Workspaces/#{workspace_sid}/Workers/#{worker_sid}/Reservations",
-           params: params,
-           opts: opts,
-           base_url: "https://taskrouter.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "reservations")
@@ -77,8 +77,7 @@ defmodule Twilio.Taskrouter.V1.Workspace.Worker.ReservationService do
              client,
              :get,
              "/v1/Workspaces/#{workspace_sid}/Workers/#{worker_sid}/Reservations/#{sid}",
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Worker.Reservation)}
@@ -188,10 +187,10 @@ defmodule Twilio.Taskrouter.V1.Workspace.Worker.ReservationService do
              client,
              :post,
              "/v1/Workspaces/#{workspace_sid}/Workers/#{worker_sid}/Reservations/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Taskrouter.V1.Workspace.Worker.Reservation)}

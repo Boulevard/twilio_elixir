@@ -21,9 +21,9 @@ defmodule Twilio.Proxy.V1.Service.Session.ParticipantService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants",
-           params: params,
-           opts: opts,
-           base_url: "https://proxy.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "participants")
@@ -85,10 +85,10 @@ defmodule Twilio.Proxy.V1.Service.Session.ParticipantService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants",
-             params: params,
-             opts: opts,
-             base_url: "https://proxy.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Proxy.V1.Service.Session.Participant)}
     end
@@ -110,8 +110,7 @@ defmodule Twilio.Proxy.V1.Service.Session.ParticipantService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants/#{sid}",
-             opts: opts,
-             base_url: "https://proxy.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Proxy.V1.Service.Session.Participant)}
     end
@@ -130,8 +129,7 @@ defmodule Twilio.Proxy.V1.Service.Session.ParticipantService do
       client,
       :delete,
       "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants/#{sid}",
-      opts: opts,
-      base_url: "https://proxy.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
     )
   end
 end

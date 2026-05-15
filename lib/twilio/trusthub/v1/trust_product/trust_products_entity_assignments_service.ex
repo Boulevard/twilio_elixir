@@ -24,10 +24,13 @@ defmodule Twilio.Trusthub.V1.TrustProduct.TrustProductsEntityAssignmentsService 
   @spec list(Client.t(), String.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, trust_product_sid, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/TrustProducts/#{trust_product_sid}/EntityAssignments",
-           params: params,
-           opts: opts,
-           base_url: "https://trusthub.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/TrustProducts/#{trust_product_sid}/EntityAssignments",
+           opts
+           |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "results")
@@ -80,10 +83,10 @@ defmodule Twilio.Trusthub.V1.TrustProduct.TrustProductsEntityAssignmentsService 
              client,
              :post,
              "/v1/TrustProducts/#{trust_product_sid}/EntityAssignments",
-             params: params,
-             opts: opts,
-             base_url: "https://trusthub.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -109,8 +112,7 @@ defmodule Twilio.Trusthub.V1.TrustProduct.TrustProductsEntityAssignmentsService 
              client,
              :get,
              "/v1/TrustProducts/#{trust_product_sid}/EntityAssignments/#{sid}",
-             opts: opts,
-             base_url: "https://trusthub.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -132,8 +134,7 @@ defmodule Twilio.Trusthub.V1.TrustProduct.TrustProductsEntityAssignmentsService 
       client,
       :delete,
       "/v1/TrustProducts/#{trust_product_sid}/EntityAssignments/#{sid}",
-      opts: opts,
-      base_url: "https://trusthub.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
     )
   end
 end

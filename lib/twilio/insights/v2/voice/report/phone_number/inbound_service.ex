@@ -21,11 +21,14 @@ defmodule Twilio.Insights.V2.Voice.Report.PhoneNumber.InboundService do
           | {:error, Twilio.Error.t()}
   def update(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Voice/Reports/PhoneNumbers/Inbound",
-             params: params,
-             opts: opts,
-             base_url: "https://insights.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v2/Voice/Reports/PhoneNumbers/Inbound",
+             opts
+             |> Keyword.put_new(:base_url, "https://insights.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

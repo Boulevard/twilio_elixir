@@ -24,9 +24,11 @@ defmodule Twilio.Messaging.V1.DeactivationsService do
   @spec fetch(Client.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def fetch(client, opts \\ []) do
-    Client.request(client, :get, "/v1/Deactivations",
-      opts: opts,
-      base_url: "https://messaging.twilio.com"
+    Client.request(
+      client,
+      :get,
+      "/v1/Deactivations",
+      opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
     )
   end
 end

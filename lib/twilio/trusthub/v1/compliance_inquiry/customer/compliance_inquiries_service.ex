@@ -37,10 +37,10 @@ defmodule Twilio.Trusthub.V1.ComplianceInquiry.Customer.ComplianceInquiriesServi
              client,
              :post,
              "/v1/ComplianceInquiries/Customers/#{customer_id}/Initialize",
-             params: params,
-             opts: opts,
-             base_url: "https://trusthub.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://trusthub.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

@@ -21,9 +21,9 @@ defmodule Twilio.Proxy.V1.Service.Session.InteractionService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Interactions",
-           params: params,
-           opts: opts,
-           base_url: "https://proxy.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "interactions")
@@ -71,8 +71,7 @@ defmodule Twilio.Proxy.V1.Service.Session.InteractionService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Interactions/#{sid}",
-             opts: opts,
-             base_url: "https://proxy.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Proxy.V1.Service.Session.Interaction)}
     end
@@ -90,8 +89,7 @@ defmodule Twilio.Proxy.V1.Service.Session.InteractionService do
       client,
       :delete,
       "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Interactions/#{sid}",
-      opts: opts,
-      base_url: "https://proxy.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
     )
   end
 end

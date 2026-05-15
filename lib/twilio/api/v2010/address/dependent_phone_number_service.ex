@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.Address.DependentPhoneNumberService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Addresses/#{address_sid}/DependentPhoneNumbers.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "dependent_phone_numbers")

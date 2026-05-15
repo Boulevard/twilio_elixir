@@ -25,8 +25,7 @@ defmodule Twilio.Conversations.V1.Service.Configuration.NotificationService do
              client,
              :get,
              "/v1/Services/#{chat_service_sid}/Configuration/Notifications",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -81,10 +80,10 @@ defmodule Twilio.Conversations.V1.Service.Configuration.NotificationService do
              client,
              :post,
              "/v1/Services/#{chat_service_sid}/Configuration/Notifications",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

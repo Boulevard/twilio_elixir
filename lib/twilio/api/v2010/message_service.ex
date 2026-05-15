@@ -32,10 +32,13 @@ defmodule Twilio.Api.V2010.MessageService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/2010-04-01/Accounts/#{client.account_sid}/Messages.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/2010-04-01/Accounts/#{client.account_sid}/Messages.json",
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "messages")
@@ -129,10 +132,10 @@ defmodule Twilio.Api.V2010.MessageService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Messages.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Message)}
     end
@@ -154,8 +157,7 @@ defmodule Twilio.Api.V2010.MessageService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Messages/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Message)}
     end
@@ -185,10 +187,10 @@ defmodule Twilio.Api.V2010.MessageService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Messages/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Message)}
     end
@@ -206,8 +208,7 @@ defmodule Twilio.Api.V2010.MessageService do
       client,
       :delete,
       "/2010-04-01/Accounts/#{client.account_sid}/Messages/#{sid}.json",
-      opts: opts,
-      base_url: "https://api.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
     )
   end
 end

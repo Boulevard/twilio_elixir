@@ -32,10 +32,10 @@ defmodule Twilio.Numbers.V2.RegulatoryCompliance.Bundle.ReplaceItemsService do
              client,
              :post,
              "/v2/RegulatoryCompliance/Bundles/#{bundle_sid}/ReplaceItems",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

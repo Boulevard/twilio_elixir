@@ -18,11 +18,14 @@ defmodule Twilio.Messaging.V2.Indicator.TypingService do
   @spec create(Client.t(), map(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
-    Client.request(client, :post, "/v2/Indicators/Typing.json",
-      params: params,
-      opts: opts,
-      base_url: "https://messaging.twilio.com",
-      content_type: :form
+    Client.request(
+      client,
+      :post,
+      "/v2/Indicators/Typing.json",
+      opts
+      |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
+      |> Keyword.put_new(:content_type, :form)
+      |> Keyword.put(:params, params)
     )
   end
 end

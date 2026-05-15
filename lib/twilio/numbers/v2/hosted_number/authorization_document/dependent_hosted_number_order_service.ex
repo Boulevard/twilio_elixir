@@ -32,9 +32,9 @@ defmodule Twilio.Numbers.V2.HostedNumber.AuthorizationDocument.DependentHostedNu
            client,
            :get,
            "/v2/HostedNumber/AuthorizationDocuments/#{signing_document_sid}/DependentHostedNumberOrders",
-           params: params,
-           opts: opts,
-           base_url: "https://numbers.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "items")

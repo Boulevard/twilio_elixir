@@ -30,10 +30,13 @@ defmodule Twilio.Preview.HostedNumber.HostedNumberOrderService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/HostedNumbers/HostedNumberOrders",
-           params: params,
-           opts: opts,
-           base_url: "https://preview.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/HostedNumbers/HostedNumberOrders",
+           opts
+           |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "items")
@@ -115,11 +118,14 @@ defmodule Twilio.Preview.HostedNumber.HostedNumberOrderService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/HostedNumbers/HostedNumberOrders",
-             params: params,
-             opts: opts,
-             base_url: "https://preview.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/HostedNumbers/HostedNumberOrders",
+             opts
+             |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Preview.HostedNumber.HostedNumberOrder)}
@@ -138,9 +144,11 @@ defmodule Twilio.Preview.HostedNumber.HostedNumberOrderService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/HostedNumbers/HostedNumberOrders/#{sid}",
-             opts: opts,
-             base_url: "https://preview.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/HostedNumbers/HostedNumberOrders/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://preview.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Preview.HostedNumber.HostedNumberOrder)}
@@ -180,11 +188,14 @@ defmodule Twilio.Preview.HostedNumber.HostedNumberOrderService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/HostedNumbers/HostedNumberOrders/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://preview.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/HostedNumbers/HostedNumberOrders/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Preview.HostedNumber.HostedNumberOrder)}
@@ -199,9 +210,11 @@ defmodule Twilio.Preview.HostedNumber.HostedNumberOrderService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/HostedNumbers/HostedNumberOrders/#{sid}",
-      opts: opts,
-      base_url: "https://preview.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/HostedNumbers/HostedNumberOrders/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://preview.twilio.com")
     )
   end
 end

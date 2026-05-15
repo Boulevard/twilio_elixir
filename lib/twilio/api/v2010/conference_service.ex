@@ -40,9 +40,9 @@ defmodule Twilio.Api.V2010.ConferenceService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/Conferences.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "conferences")
@@ -87,8 +87,7 @@ defmodule Twilio.Api.V2010.ConferenceService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/Conferences/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Conference)}
     end
@@ -120,10 +119,10 @@ defmodule Twilio.Api.V2010.ConferenceService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Conferences/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Conference)}
     end

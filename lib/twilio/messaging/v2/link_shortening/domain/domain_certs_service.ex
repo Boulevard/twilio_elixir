@@ -21,9 +21,11 @@ defmodule Twilio.Messaging.V2.LinkShortening.Domain.DomainCertsService do
           | {:error, Twilio.Error.t()}
   def fetch(client, domain_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/LinkShortening/Domains/#{domain_sid}/Certificate",
-             opts: opts,
-             base_url: "https://messaging.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/LinkShortening/Domains/#{domain_sid}/Certificate",
+             opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

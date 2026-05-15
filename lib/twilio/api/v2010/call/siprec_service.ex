@@ -235,10 +235,10 @@ defmodule Twilio.Api.V2010.Call.SiprecService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Calls/#{call_sid}/Siprec.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Call.Siprec)}
     end
@@ -266,10 +266,10 @@ defmodule Twilio.Api.V2010.Call.SiprecService do
              client,
              :post,
              "/2010-04-01/Accounts/#{client.account_sid}/Calls/#{call_sid}/Siprec/#{sid}.json",
-             params: params,
-             opts: opts,
-             base_url: "https://api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.Call.Siprec)}
     end

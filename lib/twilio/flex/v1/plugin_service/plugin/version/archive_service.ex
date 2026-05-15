@@ -25,10 +25,10 @@ defmodule Twilio.Flex.V1.PluginService.Plugin.Version.ArchiveService do
              client,
              :post,
              "/v1/PluginService/Plugins/#{plugin_sid}/Versions/#{sid}/Archive",
-             params: params,
-             opts: opts,
-             base_url: "https://flex-api.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://flex-api.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(

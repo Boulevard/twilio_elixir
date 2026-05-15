@@ -21,9 +21,9 @@ defmodule Twilio.Serverless.V1.Service.Function.VersionService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Functions/#{function_sid}/Versions",
-           params: params,
-           opts: opts,
-           base_url: "https://serverless.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "function_versions")
@@ -70,8 +70,7 @@ defmodule Twilio.Serverless.V1.Service.Function.VersionService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Functions/#{function_sid}/Versions/#{sid}",
-             opts: opts,
-             base_url: "https://serverless.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://serverless.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Serverless.V1.Service.Function.Version)}

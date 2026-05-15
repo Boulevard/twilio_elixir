@@ -21,9 +21,9 @@ defmodule Twilio.Api.V2010.AuthorizedConnectAppService do
            client,
            :get,
            "/2010-04-01/Accounts/#{client.account_sid}/AuthorizedConnectApps.json",
-           params: params,
-           opts: opts,
-           base_url: "https://api.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://api.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "authorized_connect_apps")
@@ -71,8 +71,7 @@ defmodule Twilio.Api.V2010.AuthorizedConnectAppService do
              client,
              :get,
              "/2010-04-01/Accounts/#{client.account_sid}/AuthorizedConnectApps/#{sid}.json",
-             opts: opts,
-             base_url: "https://api.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://api.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Api.V2010.AuthorizedConnectApp)}
     end

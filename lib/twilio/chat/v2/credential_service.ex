@@ -17,10 +17,13 @@ defmodule Twilio.Chat.V2.CredentialService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v2/Credentials",
-           params: params,
-           opts: opts,
-           base_url: "https://chat.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v2/Credentials",
+           opts
+           |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "credentials")
@@ -81,11 +84,14 @@ defmodule Twilio.Chat.V2.CredentialService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Credentials",
-             params: params,
-             opts: opts,
-             base_url: "https://chat.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Credentials",
+             opts
+             |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Credential)}
     end
@@ -103,9 +109,11 @@ defmodule Twilio.Chat.V2.CredentialService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v2/Credentials/#{sid}",
-             opts: opts,
-             base_url: "https://chat.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v2/Credentials/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Credential)}
     end
@@ -140,11 +148,14 @@ defmodule Twilio.Chat.V2.CredentialService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v2/Credentials/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://chat.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v2/Credentials/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://chat.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Chat.V2.Credential)}
     end
@@ -158,9 +169,11 @@ defmodule Twilio.Chat.V2.CredentialService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v2/Credentials/#{sid}",
-      opts: opts,
-      base_url: "https://chat.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v2/Credentials/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://chat.twilio.com")
     )
   end
 end

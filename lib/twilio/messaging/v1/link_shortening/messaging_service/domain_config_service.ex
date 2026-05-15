@@ -25,8 +25,7 @@ defmodule Twilio.Messaging.V1.LinkShortening.MessagingService.DomainConfigServic
              client,
              :get,
              "/v1/LinkShortening/MessagingService/#{messaging_service_sid}/DomainConfig",
-             opts: opts,
-             base_url: "https://messaging.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://messaging.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

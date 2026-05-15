@@ -17,10 +17,13 @@ defmodule Twilio.Numbers.V1.Porting.Configuration.WebhookService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Porting/Configuration/Webhook",
-           params: params,
-           opts: opts,
-           base_url: "https://numbers.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Porting/Configuration/Webhook",
+           opts
+           |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "webhook")
@@ -63,11 +66,14 @@ defmodule Twilio.Numbers.V1.Porting.Configuration.WebhookService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Porting/Configuration/Webhook",
-             params: params,
-             opts: opts,
-             base_url: "https://numbers.twilio.com",
-             content_type: :json
+           Client.request(
+             client,
+             :post,
+             "/v1/Porting/Configuration/Webhook",
+             opts
+             |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
+             |> Keyword.put_new(:content_type, :json)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(data, Twilio.Resources.Numbers.V1.Porting.Configuration.Webhook)}
@@ -82,9 +88,11 @@ defmodule Twilio.Numbers.V1.Porting.Configuration.WebhookService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Porting/Configuration/Webhook/#{sid}",
-      opts: opts,
-      base_url: "https://numbers.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Porting/Configuration/Webhook/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://numbers.twilio.com")
     )
   end
 end

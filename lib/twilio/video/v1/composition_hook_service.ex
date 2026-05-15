@@ -29,10 +29,13 @@ defmodule Twilio.Video.V1.CompositionHookService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/CompositionHooks",
-           params: params,
-           opts: opts,
-           base_url: "https://video.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/CompositionHooks",
+           opts
+           |> Keyword.put_new(:base_url, "https://video.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "composition_hooks")
@@ -103,11 +106,14 @@ defmodule Twilio.Video.V1.CompositionHookService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/CompositionHooks",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/CompositionHooks",
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.CompositionHook)}
     end
@@ -125,9 +131,11 @@ defmodule Twilio.Video.V1.CompositionHookService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/CompositionHooks/#{sid}",
-             opts: opts,
-             base_url: "https://video.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/CompositionHooks/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.CompositionHook)}
     end
@@ -173,11 +181,14 @@ defmodule Twilio.Video.V1.CompositionHookService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/CompositionHooks/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://video.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/CompositionHooks/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://video.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Video.V1.CompositionHook)}
     end
@@ -191,9 +202,11 @@ defmodule Twilio.Video.V1.CompositionHookService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/CompositionHooks/#{sid}",
-      opts: opts,
-      base_url: "https://video.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/CompositionHooks/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://video.twilio.com")
     )
   end
 end

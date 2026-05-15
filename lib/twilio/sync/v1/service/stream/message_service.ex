@@ -32,10 +32,10 @@ defmodule Twilio.Sync.V1.Service.Stream.MessageService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Streams/#{stream_sid}/Messages",
-             params: params,
-             opts: opts,
-             base_url: "https://sync.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://sync.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Sync.V1.Service.Stream.Message)}
     end

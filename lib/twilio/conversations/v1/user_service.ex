@@ -17,10 +17,13 @@ defmodule Twilio.Conversations.V1.UserService do
   @spec list(Client.t(), map(), keyword()) ::
           {:ok, Twilio.Page.t()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def list(client, params \\ %{}, opts \\ []) do
-    case Client.request(client, :get, "/v1/Users",
-           params: params,
-           opts: opts,
-           base_url: "https://conversations.twilio.com"
+    case Client.request(
+           client,
+           :get,
+           "/v1/Users",
+           opts
+           |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "users")
@@ -76,11 +79,14 @@ defmodule Twilio.Conversations.V1.UserService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Users",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Users",
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.User)}
     end
@@ -98,9 +104,11 @@ defmodule Twilio.Conversations.V1.UserService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Users/#{sid}",
-             opts: opts,
-             base_url: "https://conversations.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Users/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.User)}
     end
@@ -128,11 +136,14 @@ defmodule Twilio.Conversations.V1.UserService do
           | {:error, Twilio.Error.t()}
   def update(client, sid, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Users/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://conversations.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Users/#{sid}",
+             opts
+             |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Conversations.V1.User)}
     end
@@ -146,9 +157,11 @@ defmodule Twilio.Conversations.V1.UserService do
   @spec delete(Client.t(), String.t(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def delete(client, sid, opts \\ []) do
-    Client.request(client, :delete, "/v1/Users/#{sid}",
-      opts: opts,
-      base_url: "https://conversations.twilio.com"
+    Client.request(
+      client,
+      :delete,
+      "/v1/Users/#{sid}",
+      opts |> Keyword.put_new(:base_url, "https://conversations.twilio.com")
     )
   end
 end

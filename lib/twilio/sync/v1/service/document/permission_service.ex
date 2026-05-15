@@ -21,9 +21,9 @@ defmodule Twilio.Sync.V1.Service.Document.PermissionService do
            client,
            :get,
            "/v1/Services/#{service_sid}/Documents/#{document_sid}/Permissions",
-           params: params,
-           opts: opts,
-           base_url: "https://sync.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://sync.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "permissions")
@@ -70,8 +70,7 @@ defmodule Twilio.Sync.V1.Service.Document.PermissionService do
              client,
              :get,
              "/v1/Services/#{service_sid}/Documents/#{document_sid}/Permissions/#{sid}",
-             opts: opts,
-             base_url: "https://sync.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://sync.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Sync.V1.Service.Document.Permission)}
     end
@@ -101,10 +100,10 @@ defmodule Twilio.Sync.V1.Service.Document.PermissionService do
              client,
              :post,
              "/v1/Services/#{service_sid}/Documents/#{document_sid}/Permissions/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://sync.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://sync.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Sync.V1.Service.Document.Permission)}
     end
@@ -122,8 +121,7 @@ defmodule Twilio.Sync.V1.Service.Document.PermissionService do
       client,
       :delete,
       "/v1/Services/#{service_sid}/Documents/#{document_sid}/Permissions/#{sid}",
-      opts: opts,
-      base_url: "https://sync.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://sync.twilio.com")
     )
   end
 end

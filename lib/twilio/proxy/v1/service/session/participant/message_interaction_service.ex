@@ -21,9 +21,9 @@ defmodule Twilio.Proxy.V1.Service.Session.Participant.MessageInteractionService 
            client,
            :get,
            "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants/#{participant_sid}/MessageInteractions",
-           params: params,
-           opts: opts,
-           base_url: "https://proxy.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "interactions")
@@ -85,10 +85,10 @@ defmodule Twilio.Proxy.V1.Service.Session.Participant.MessageInteractionService 
              client,
              :post,
              "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants/#{participant_sid}/MessageInteractions",
-             params: params,
-             opts: opts,
-             base_url: "https://proxy.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok,
        Deserializer.deserialize(
@@ -115,8 +115,7 @@ defmodule Twilio.Proxy.V1.Service.Session.Participant.MessageInteractionService 
              :get,
              # credo:disable-for-next-line Credo.Check.Readability.MaxLineLength
              "/v1/Services/#{service_sid}/Sessions/#{session_sid}/Participants/#{participant_sid}/MessageInteractions/#{sid}",
-             opts: opts,
-             base_url: "https://proxy.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://proxy.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

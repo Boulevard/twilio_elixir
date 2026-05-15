@@ -23,11 +23,14 @@ defmodule Twilio.Verify.V2.Service.Passkey.ChallengeService do
   @spec update(Client.t(), String.t(), map(), keyword()) ::
           {:ok, map()} | {:ok, map(), map()} | :ok | {:error, Twilio.Error.t()}
   def update(client, service_sid, params \\ %{}, opts \\ []) do
-    Client.request(client, :post, "/v2/Services/#{service_sid}/Passkeys/Challenges",
-      params: params,
-      opts: opts,
-      base_url: "https://verify.twilio.com",
-      content_type: :json
+    Client.request(
+      client,
+      :post,
+      "/v2/Services/#{service_sid}/Passkeys/Challenges",
+      opts
+      |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+      |> Keyword.put_new(:content_type, :json)
+      |> Keyword.put(:params, params)
     )
   end
 end

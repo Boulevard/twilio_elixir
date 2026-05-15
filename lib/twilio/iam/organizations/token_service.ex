@@ -39,11 +39,14 @@ defmodule Twilio.Iam.Organizations.TokenService do
           | {:error, Twilio.Error.t()}
   def create(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/token",
-             params: params,
-             opts: opts,
-             base_url: "https://preview-iam.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/token",
+             opts
+             |> Keyword.put_new(:base_url, "https://preview-iam.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Iam.Organizations.Token)}
     end

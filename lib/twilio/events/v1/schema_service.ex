@@ -21,9 +21,11 @@ defmodule Twilio.Events.V1.SchemaService do
           | {:error, Twilio.Error.t()}
   def fetch(client, sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Schemas/#{sid}",
-             opts: opts,
-             base_url: "https://events.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Schemas/#{sid}",
+             opts |> Keyword.put_new(:base_url, "https://events.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Events.V1.Schema)}
     end

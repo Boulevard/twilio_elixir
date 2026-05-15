@@ -21,9 +21,9 @@ defmodule Twilio.Verify.V2.Service.RateLimit.BucketService do
            client,
            :get,
            "/v2/Services/#{service_sid}/RateLimits/#{rate_limit_sid}/Buckets",
-           params: params,
-           opts: opts,
-           base_url: "https://verify.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "buckets")
@@ -77,10 +77,10 @@ defmodule Twilio.Verify.V2.Service.RateLimit.BucketService do
              client,
              :post,
              "/v2/Services/#{service_sid}/RateLimits/#{rate_limit_sid}/Buckets",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.RateLimit.Bucket)}
     end
@@ -102,8 +102,7 @@ defmodule Twilio.Verify.V2.Service.RateLimit.BucketService do
              client,
              :get,
              "/v2/Services/#{service_sid}/RateLimits/#{rate_limit_sid}/Buckets/#{sid}",
-             opts: opts,
-             base_url: "https://verify.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.RateLimit.Bucket)}
     end
@@ -132,10 +131,10 @@ defmodule Twilio.Verify.V2.Service.RateLimit.BucketService do
              client,
              :post,
              "/v2/Services/#{service_sid}/RateLimits/#{rate_limit_sid}/Buckets/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.RateLimit.Bucket)}
     end
@@ -153,8 +152,7 @@ defmodule Twilio.Verify.V2.Service.RateLimit.BucketService do
       client,
       :delete,
       "/v2/Services/#{service_sid}/RateLimits/#{rate_limit_sid}/Buckets/#{sid}",
-      opts: opts,
-      base_url: "https://verify.twilio.com"
+      opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
     )
   end
 end

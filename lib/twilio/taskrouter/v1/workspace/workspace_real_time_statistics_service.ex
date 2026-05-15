@@ -28,9 +28,11 @@ defmodule Twilio.Taskrouter.V1.Workspace.WorkspaceRealTimeStatisticsService do
           | {:error, Twilio.Error.t()}
   def fetch(client, workspace_sid, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Workspaces/#{workspace_sid}/RealTimeStatistics",
-             opts: opts,
-             base_url: "https://taskrouter.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Workspaces/#{workspace_sid}/RealTimeStatistics",
+             opts |> Keyword.put_new(:base_url, "https://taskrouter.twilio.com")
            ) do
       {:ok,
        Deserializer.deserialize(

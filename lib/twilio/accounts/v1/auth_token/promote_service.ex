@@ -22,11 +22,14 @@ defmodule Twilio.Accounts.V1.AuthToken.PromoteService do
           | {:error, Twilio.Error.t()}
   def update(client, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/AuthTokens/Promote",
-             params: params,
-             opts: opts,
-             base_url: "https://accounts.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/AuthTokens/Promote",
+             opts
+             |> Keyword.put_new(:base_url, "https://accounts.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Accounts.V1.AuthToken.Promote)}
     end

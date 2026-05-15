@@ -21,9 +21,11 @@ defmodule Twilio.Bulkexports.V1.Export.ConfigurationService do
           | {:error, Twilio.Error.t()}
   def fetch(client, resource_type, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :get, "/v1/Exports/#{resource_type}/Configuration",
-             opts: opts,
-             base_url: "https://bulkexports.twilio.com"
+           Client.request(
+             client,
+             :get,
+             "/v1/Exports/#{resource_type}/Configuration",
+             opts |> Keyword.put_new(:base_url, "https://bulkexports.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Bulkexports.V1.Export.Configuration)}
     end
@@ -50,11 +52,14 @@ defmodule Twilio.Bulkexports.V1.Export.ConfigurationService do
           | {:error, Twilio.Error.t()}
   def update(client, resource_type, params \\ %{}, opts \\ []) do
     with {:ok, data} <-
-           Client.request(client, :post, "/v1/Exports/#{resource_type}/Configuration",
-             params: params,
-             opts: opts,
-             base_url: "https://bulkexports.twilio.com",
-             content_type: :form
+           Client.request(
+             client,
+             :post,
+             "/v1/Exports/#{resource_type}/Configuration",
+             opts
+             |> Keyword.put_new(:base_url, "https://bulkexports.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Bulkexports.V1.Export.Configuration)}
     end

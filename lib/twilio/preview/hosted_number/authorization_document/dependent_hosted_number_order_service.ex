@@ -34,9 +34,9 @@ defmodule Twilio.Preview.HostedNumber.AuthorizationDocument.DependentHostedNumbe
            client,
            :get,
            "/HostedNumbers/AuthorizationDocuments/#{signing_document_sid}/DependentHostedNumberOrders",
-           params: params,
-           opts: opts,
-           base_url: "https://preview.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://preview.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "items")

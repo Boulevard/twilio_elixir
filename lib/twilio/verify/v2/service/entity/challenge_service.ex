@@ -30,9 +30,9 @@ defmodule Twilio.Verify.V2.Service.Entity.ChallengeService do
            client,
            :get,
            "/v2/Services/#{service_sid}/Entities/#{identity}/Challenges",
-           params: params,
-           opts: opts,
-           base_url: "https://verify.twilio.com"
+           opts
+           |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+           |> Keyword.put(:params, params)
          ) do
       {:ok, data} ->
         page = Twilio.Page.from_response(data, "challenges")
@@ -99,10 +99,10 @@ defmodule Twilio.Verify.V2.Service.Entity.ChallengeService do
              client,
              :post,
              "/v2/Services/#{service_sid}/Entities/#{identity}/Challenges",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.Entity.Challenge)}
     end
@@ -124,8 +124,7 @@ defmodule Twilio.Verify.V2.Service.Entity.ChallengeService do
              client,
              :get,
              "/v2/Services/#{service_sid}/Entities/#{identity}/Challenges/#{sid}",
-             opts: opts,
-             base_url: "https://verify.twilio.com"
+             opts |> Keyword.put_new(:base_url, "https://verify.twilio.com")
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.Entity.Challenge)}
     end
@@ -156,10 +155,10 @@ defmodule Twilio.Verify.V2.Service.Entity.ChallengeService do
              client,
              :post,
              "/v2/Services/#{service_sid}/Entities/#{identity}/Challenges/#{sid}",
-             params: params,
-             opts: opts,
-             base_url: "https://verify.twilio.com",
-             content_type: :form
+             opts
+             |> Keyword.put_new(:base_url, "https://verify.twilio.com")
+             |> Keyword.put_new(:content_type, :form)
+             |> Keyword.put(:params, params)
            ) do
       {:ok, Deserializer.deserialize(data, Twilio.Resources.Verify.V2.Service.Entity.Challenge)}
     end
