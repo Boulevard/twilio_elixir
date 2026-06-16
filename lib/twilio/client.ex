@@ -16,13 +16,16 @@ defmodule Twilio.Client do
         edge: "dublin",
         max_retries: 3
       )
+
+      # API Key authentication
+      client = Twilio.Client.from_api_key("ACxxx", "SKxxx", "secret")
   """
 
   @type t :: %__MODULE__{
           account_sid: String.t(),
           auth_token: String.t() | nil,
           username: String.t(),
-          password: String.t(),
+          password: String.t() | nil,
           region: String.t() | nil,
           edge: String.t() | nil,
           max_retries: non_neg_integer(),
@@ -98,6 +101,27 @@ defmodule Twilio.Client do
       finch: Keyword.get(opts, :finch, Twilio.Finch),
       user_agent_extensions: Keyword.get(opts, :user_agent_extensions, [])
     }
+  end
+
+  @doc """
+  Create a new client authenticated with a Twilio API Key.
+
+  The Account SID (`AC…`) is still required — it identifies the account in every
+  request URL. The API Key SID (`SK…`) and Secret become the HTTP Basic
+  credentials.
+
+      client = Twilio.Client.from_api_key("ACxxx", "SKxxx", "secret")
+
+  Accepts the same options as `new/3`.
+  """
+  @spec from_api_key(String.t(), String.t(), String.t()) :: t()
+  def from_api_key(account_sid, api_key_sid, api_key_secret) do
+    from_api_key(account_sid, api_key_sid, api_key_secret, [])
+  end
+
+  @spec from_api_key(String.t(), String.t(), String.t(), keyword()) :: t()
+  def from_api_key(account_sid, api_key_sid, api_key_secret, opts) do
+    new(account_sid, nil, Keyword.merge(opts, username: api_key_sid, password: api_key_secret))
   end
 
   @doc """

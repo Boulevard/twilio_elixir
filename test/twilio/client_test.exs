@@ -59,6 +59,27 @@ defmodule Twilio.ClientTest do
     end
   end
 
+  describe "from_api_key/3" do
+    test "maps API Key credentials onto the auth fields" do
+      client = Client.from_api_key("ACxxx", "SKxxx", "secret")
+
+      assert client.account_sid == "ACxxx"
+      assert client.username == "SKxxx"
+      assert client.password == "secret"
+      assert client.auth_token == nil
+    end
+  end
+
+  describe "from_api_key/4" do
+    test "accepts the same options as new/3" do
+      client = Client.from_api_key("ACxxx", "SKxxx", "secret", region: "ie1", max_retries: 3)
+
+      assert client.region == "ie1"
+      assert client.max_retries == 3
+      assert client.username == "SKxxx"
+    end
+  end
+
   describe "request/4 — basic" do
     test "makes a GET request and parses JSON", %{client: client} do
       assert {:ok, data} =
