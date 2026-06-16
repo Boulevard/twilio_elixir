@@ -50,4 +50,25 @@ defmodule Twilio do
   """
   @spec client(String.t(), String.t(), keyword()) :: Twilio.Client.t()
   def client(account_sid, auth_token, opts), do: Twilio.Client.new(account_sid, auth_token, opts)
+
+  @doc """
+  Create a client authenticated with a Twilio API Key.
+
+  Pass the Account SID (used in request URLs), the API Key SID (`SK…`), and the
+  Secret.
+
+      client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret")
+  """
+  @spec client_from_api_key(String.t(), String.t(), String.t()) :: Twilio.Client.t()
+  def client_from_api_key(account_sid, api_key_sid, api_key_secret),
+    do: Twilio.Client.from_api_key(account_sid, api_key_sid, api_key_secret)
+
+  @doc """
+  Create a client authenticated with a Twilio API Key and options.
+
+  Accepts the same options as `client/3`.
+  """
+  @spec client_from_api_key(String.t(), String.t(), String.t(), keyword()) :: Twilio.Client.t()
+  def client_from_api_key(account_sid, api_key_sid, api_key_secret, opts),
+    do: Twilio.Client.from_api_key(account_sid, api_key_sid, api_key_secret, opts)
 end

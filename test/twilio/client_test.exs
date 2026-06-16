@@ -80,6 +80,23 @@ defmodule Twilio.ClientTest do
     end
   end
 
+  describe "Twilio.client_from_api_key/3,4" do
+    test "delegates to Client.from_api_key" do
+      client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret")
+
+      assert %Twilio.Client{} = client
+      assert client.account_sid == "ACxxx"
+      assert client.username == "SKxxx"
+      assert client.password == "secret"
+    end
+
+    test "forwards options" do
+      client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret", region: "ie1")
+
+      assert client.region == "ie1"
+    end
+  end
+
   describe "request/4 — basic" do
     test "makes a GET request and parses JSON", %{client: client} do
       assert {:ok, data} =
