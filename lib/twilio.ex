@@ -11,6 +11,10 @@ defmodule Twilio do
 
       # Create a client and make API calls
       client = Twilio.client()
+
+      # Or authenticate with an API Key instead of the Auth Token:
+      # client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret")
+
       {:ok, message} = Twilio.Api.V2010.MessageService.create(client, %{
         "To" => "+15551234567",
         "From" => "+15559876543",

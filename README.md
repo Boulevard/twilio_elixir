@@ -45,6 +45,28 @@ config :twilio_elixir,
   auth_token: System.fetch_env!("TWILIO_AUTH_TOKEN")
 ```
 
+#### Using an API Key
+
+Authenticate with a Twilio [API Key](https://www.twilio.com/docs/iam/keys/api-key)
+instead of your Auth Token. The Account SID is still required (it identifies the
+account in request URLs); the API Key SID and Secret become the credentials:
+
+```elixir
+# config/runtime.exs
+config :twilio_elixir,
+  account_sid: System.fetch_env!("TWILIO_ACCOUNT_SID"),
+  api_key_sid: System.fetch_env!("TWILIO_API_KEY_SID"),
+  api_key_secret: System.fetch_env!("TWILIO_API_KEY_SECRET")
+```
+
+Or construct a client explicitly:
+
+```elixir
+client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret")
+```
+
+When both an Auth Token and an API Key are configured, the Auth Token wins.
+
 ### Send a Message
 
 ```elixir
