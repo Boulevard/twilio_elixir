@@ -48,6 +48,17 @@ defmodule Twilio.ClientTest do
     end
   end
 
+  describe "new/3 — generic credentials" do
+    test "accepts :username and :password overrides" do
+      client = Client.new("ACxxx", "token", username: "SKxxx", password: "secret")
+
+      assert client.account_sid == "ACxxx"
+      assert client.auth_token == "token"
+      assert client.username == "SKxxx"
+      assert client.password == "secret"
+    end
+  end
+
   describe "request/4 — basic" do
     test "makes a GET request and parses JSON", %{client: client} do
       assert {:ok, data} =

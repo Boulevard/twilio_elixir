@@ -20,7 +20,7 @@ defmodule Twilio.Client do
 
   @type t :: %__MODULE__{
           account_sid: String.t(),
-          auth_token: String.t(),
+          auth_token: String.t() | nil,
           username: String.t(),
           password: String.t(),
           region: String.t() | nil,
@@ -80,14 +80,16 @@ defmodule Twilio.Client do
     * `:read_timeout` - Read timeout in ms (default: `30_000`)
     * `:finch` - Custom Finch instance name (default: `Twilio.Finch`)
     * `:account_sid` - Override account SID for subaccounts
+    * `:username` - Override the Basic-auth username (default: `account_sid`)
+    * `:password` - Override the Basic-auth password (default: `auth_token`)
   """
-  @spec new(String.t(), String.t(), keyword()) :: t()
+  @spec new(String.t(), String.t() | nil, keyword()) :: t()
   def new(account_sid, auth_token, opts) do
     %__MODULE__{
       account_sid: Keyword.get(opts, :account_sid, account_sid),
       auth_token: auth_token,
-      username: account_sid,
-      password: auth_token,
+      username: Keyword.get(opts, :username, account_sid),
+      password: Keyword.get(opts, :password, auth_token),
       region: Keyword.get(opts, :region, Twilio.Config.region()),
       edge: Keyword.get(opts, :edge, Twilio.Config.edge()),
       max_retries: Keyword.get(opts, :max_retries, Twilio.Config.max_retries()),
