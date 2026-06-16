@@ -123,6 +123,22 @@ defmodule Twilio.ClientTest do
     end
   end
 
+  describe "request/4 — API key auth" do
+    test "sends Basic auth with the API Key SID and secret" do
+      Twilio.Test.stub(fn _method, _url, headers, _body ->
+        {_, auth} = List.keyfind(headers, "authorization", 0)
+        decoded = auth |> String.replace("Basic ", "") |> Base.decode64!()
+        assert decoded == "SKtest:secret"
+        {200, [], ~s({"ok": true})}
+      end)
+
+      client = Client.from_api_key("ACtest123", "SKtest", "secret")
+
+      assert {:ok, _} =
+               Client.request(client, :get, "/test.json", base_url: "https://api.twilio.com")
+    end
+  end
+
   describe "request/4 — encoding" do
     test "form-encodes POST parameters", %{client: client} do
       Twilio.Test.stub(fn _method, _url, _headers, body ->
