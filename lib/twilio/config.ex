@@ -15,6 +15,14 @@ defmodule Twilio.Config do
   @spec auth_token() :: String.t() | nil
   def auth_token, do: get(:auth_token)
 
+  @doc "Get the configured API Key SID."
+  @spec api_key_sid() :: String.t() | nil
+  def api_key_sid, do: get(:api_key_sid)
+
+  @doc "Get the configured API Key secret."
+  @spec api_key_secret() :: String.t() | nil
+  def api_key_secret, do: get(:api_key_secret)
+
   @doc "Get the configured region."
   @spec region() :: String.t() | nil
   def region, do: get(:region)

@@ -51,16 +51,37 @@ defmodule Twilio.Client do
 
   @doc """
   Create a new client from application config.
+
+  Resolves credentials in this order (Auth Token wins when present):
+
+    1. `:auth_token` set → Account SID + Auth Token.
+    2. Both `:api_key_sid` and `:api_key_secret` set → API Key auth.
+
+  `:account_sid` is always required — it identifies the account in every
+  request URL.
   """
   @spec new() :: t()
   def new do
     account_sid =
       Twilio.Config.account_sid() || raise "Missing :account_sid in :twilio_elixir config"
 
-    auth_token =
-      Twilio.Config.auth_token() || raise "Missing :auth_token in :twilio_elixir config"
+    auth_token = Twilio.Config.auth_token()
+    api_key_sid = Twilio.Config.api_key_sid()
+    api_key_secret = Twilio.Config.api_key_secret()
 
-    new(account_sid, auth_token)
+    cond do
+      is_binary(auth_token) ->
+        new(account_sid, auth_token)
+
+      is_binary(api_key_sid) and is_binary(api_key_secret) ->
+        from_api_key(account_sid, api_key_sid, api_key_secret)
+
+      is_binary(api_key_sid) or is_binary(api_key_secret) ->
+        raise "Incomplete API Key config: set both :api_key_sid and :api_key_secret in :twilio_elixir config"
+
+      true ->
+        raise "Missing credentials: set :auth_token, or both :api_key_sid and :api_key_secret in :twilio_elixir config"
+    end
   end
 
   @doc """
