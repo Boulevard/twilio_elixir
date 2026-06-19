@@ -48,6 +48,55 @@ defmodule Twilio.ClientTest do
     end
   end
 
+  describe "new/3 — generic credentials" do
+    test "accepts :username and :password overrides" do
+      client = Client.new("ACxxx", "token", username: "SKxxx", password: "secret")
+
+      assert client.account_sid == "ACxxx"
+      assert client.auth_token == "token"
+      assert client.username == "SKxxx"
+      assert client.password == "secret"
+    end
+  end
+
+  describe "from_api_key/3" do
+    test "maps API Key credentials onto the auth fields" do
+      client = Client.from_api_key("ACxxx", "SKxxx", "secret")
+
+      assert client.account_sid == "ACxxx"
+      assert client.username == "SKxxx"
+      assert client.password == "secret"
+      assert client.auth_token == nil
+    end
+  end
+
+  describe "from_api_key/4" do
+    test "accepts the same options as new/3" do
+      client = Client.from_api_key("ACxxx", "SKxxx", "secret", region: "ie1", max_retries: 3)
+
+      assert client.region == "ie1"
+      assert client.max_retries == 3
+      assert client.username == "SKxxx"
+    end
+  end
+
+  describe "Twilio.client_from_api_key/3,4" do
+    test "delegates to Client.from_api_key" do
+      client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret")
+
+      assert %Twilio.Client{} = client
+      assert client.account_sid == "ACxxx"
+      assert client.username == "SKxxx"
+      assert client.password == "secret"
+    end
+
+    test "forwards options" do
+      client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret", region: "ie1")
+
+      assert client.region == "ie1"
+    end
+  end
+
   describe "request/4 — basic" do
     test "makes a GET request and parses JSON", %{client: client} do
       assert {:ok, data} =
@@ -85,6 +134,22 @@ defmodule Twilio.ClientTest do
         assert decoded == "ACtest123:test_token"
         {200, [], ~s({"ok": true})}
       end)
+
+      assert {:ok, _} =
+               Client.request(client, :get, "/test.json", base_url: "https://api.twilio.com")
+    end
+  end
+
+  describe "request/4 — API key auth" do
+    test "sends Basic auth with the API Key SID and secret" do
+      Twilio.Test.stub(fn _method, _url, headers, _body ->
+        {_, auth} = List.keyfind(headers, "authorization", 0)
+        decoded = auth |> String.replace("Basic ", "") |> Base.decode64!()
+        assert decoded == "SKtest:secret"
+        {200, [], ~s({"ok": true})}
+      end)
+
+      client = Client.from_api_key("ACtest123", "SKtest", "secret")
 
       assert {:ok, _} =
                Client.request(client, :get, "/test.json", base_url: "https://api.twilio.com")

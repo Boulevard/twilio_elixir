@@ -42,8 +42,9 @@ end
 
 ### All Config Options
 
-The only required keys are `:account_sid` and `:auth_token`. Everything else
-has sensible defaults:
+The required keys are `:account_sid` plus credentials — either `:auth_token` or
+an API Key pair (`:api_key_sid` + `:api_key_secret`). Everything else has
+sensible defaults:
 
 ```elixir
 config :twilio_elixir,
@@ -60,10 +61,14 @@ config :twilio_elixir,
 | Key | Default | Description |
 |-----|---------|-------------|
 | `:account_sid` | required | Twilio Account SID (`ACxxx`) |
-| `:auth_token` | required | Twilio Auth Token |
+| `:auth_token` | required\* | Twilio Auth Token |
+| `:api_key_sid` | required\* | API Key SID (`SKxxx`) — alternative to `:auth_token` |
+| `:api_key_secret` | required\* | API Key Secret — required together with `:api_key_sid` |
 | `:region` | `nil` | Twilio region (e.g. `"us1"`, `"ie1"`, `"au1"`) |
 | `:edge` | `nil` | Twilio edge location (e.g. `"ashburn"`, `"dublin"`, `"sydney"`) |
 | `:max_retries` | `0` | Max retry attempts for failed requests |
+
+\* Provide **either** `:auth_token` **or** both `:api_key_sid` + `:api_key_secret`. When both are set, the Auth Token wins.
 
 ## Creating a Client
 
@@ -81,6 +86,22 @@ For multi-tenant apps or subaccounts, pass credentials directly:
 ```elixir
 client = Twilio.client("ACxxx", "auth_token_xxx")
 ```
+
+### API Key Authentication
+
+Authenticate with a Twilio API Key instead of your Auth Token. The Account SID
+is still required (it identifies the account in request URLs); the API Key SID
+(`SKxxx`) and Secret become the credentials:
+
+```elixir
+client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret")
+
+# with options
+client = Twilio.client_from_api_key("ACxxx", "SKxxx", "secret", region: "ie1")
+```
+
+From config, set `:api_key_sid` and `:api_key_secret` and call `Twilio.client()`.
+When both an Auth Token and an API Key are configured, the Auth Token wins.
 
 ### With Options
 

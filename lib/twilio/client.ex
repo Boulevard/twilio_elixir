@@ -16,13 +16,16 @@ defmodule Twilio.Client do
         edge: "dublin",
         max_retries: 3
       )
+
+      # API Key authentication
+      client = Twilio.Client.from_api_key("ACxxx", "SKxxx", "secret")
   """
 
   @type t :: %__MODULE__{
           account_sid: String.t(),
-          auth_token: String.t(),
+          auth_token: String.t() | nil,
           username: String.t(),
-          password: String.t(),
+          password: String.t() | nil,
           region: String.t() | nil,
           edge: String.t() | nil,
           max_retries: non_neg_integer(),
@@ -48,16 +51,37 @@ defmodule Twilio.Client do
 
   @doc """
   Create a new client from application config.
+
+  Resolves credentials in this order (Auth Token wins when present):
+
+    1. `:auth_token` set → Account SID + Auth Token.
+    2. Both `:api_key_sid` and `:api_key_secret` set → API Key auth.
+
+  `:account_sid` is always required — it identifies the account in every
+  request URL.
   """
   @spec new() :: t()
   def new do
     account_sid =
       Twilio.Config.account_sid() || raise "Missing :account_sid in :twilio_elixir config"
 
-    auth_token =
-      Twilio.Config.auth_token() || raise "Missing :auth_token in :twilio_elixir config"
+    auth_token = Twilio.Config.auth_token()
+    api_key_sid = Twilio.Config.api_key_sid()
+    api_key_secret = Twilio.Config.api_key_secret()
 
-    new(account_sid, auth_token)
+    cond do
+      is_binary(auth_token) ->
+        new(account_sid, auth_token)
+
+      is_binary(api_key_sid) and is_binary(api_key_secret) ->
+        from_api_key(account_sid, api_key_sid, api_key_secret)
+
+      is_binary(api_key_sid) or is_binary(api_key_secret) ->
+        raise "Incomplete API Key config: set both :api_key_sid and :api_key_secret in :twilio_elixir config"
+
+      true ->
+        raise "Missing credentials: set :auth_token, or both :api_key_sid and :api_key_secret in :twilio_elixir config"
+    end
   end
 
   @doc """
@@ -80,14 +104,16 @@ defmodule Twilio.Client do
     * `:read_timeout` - Read timeout in ms (default: `30_000`)
     * `:finch` - Custom Finch instance name (default: `Twilio.Finch`)
     * `:account_sid` - Override account SID for subaccounts
+    * `:username` - Override the Basic-auth username (default: `account_sid`)
+    * `:password` - Override the Basic-auth password (default: `auth_token`)
   """
-  @spec new(String.t(), String.t(), keyword()) :: t()
+  @spec new(String.t(), String.t() | nil, keyword()) :: t()
   def new(account_sid, auth_token, opts) do
     %__MODULE__{
       account_sid: Keyword.get(opts, :account_sid, account_sid),
       auth_token: auth_token,
-      username: account_sid,
-      password: auth_token,
+      username: Keyword.get(opts, :username, account_sid),
+      password: Keyword.get(opts, :password, auth_token),
       region: Keyword.get(opts, :region, Twilio.Config.region()),
       edge: Keyword.get(opts, :edge, Twilio.Config.edge()),
       max_retries: Keyword.get(opts, :max_retries, Twilio.Config.max_retries()),
@@ -96,6 +122,22 @@ defmodule Twilio.Client do
       finch: Keyword.get(opts, :finch, Twilio.Finch),
       user_agent_extensions: Keyword.get(opts, :user_agent_extensions, [])
     }
+  end
+
+  @doc """
+  Create a new client authenticated with a Twilio API Key.
+
+  The Account SID (`AC…`) is still required — it identifies the account in every
+  request URL. The API Key SID (`SK…`) and Secret become the HTTP Basic
+  credentials.
+
+      client = Twilio.Client.from_api_key("ACxxx", "SKxxx", "secret")
+
+  Accepts the same options as `new/3`.
+  """
+  @spec from_api_key(String.t(), String.t(), String.t(), keyword()) :: t()
+  def from_api_key(account_sid, api_key_sid, api_key_secret, opts \\ []) do
+    new(account_sid, nil, Keyword.merge(opts, username: api_key_sid, password: api_key_secret))
   end
 
   @doc """
