@@ -135,13 +135,8 @@ defmodule Twilio.Client do
 
   Accepts the same options as `new/3`.
   """
-  @spec from_api_key(String.t(), String.t(), String.t()) :: t()
-  def from_api_key(account_sid, api_key_sid, api_key_secret) do
-    from_api_key(account_sid, api_key_sid, api_key_secret, [])
-  end
-
   @spec from_api_key(String.t(), String.t(), String.t(), keyword()) :: t()
-  def from_api_key(account_sid, api_key_sid, api_key_secret, opts) do
+  def from_api_key(account_sid, api_key_sid, api_key_secret, opts \\ []) do
     new(account_sid, nil, Keyword.merge(opts, username: api_key_sid, password: api_key_secret))
   end
 
