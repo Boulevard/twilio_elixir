@@ -220,6 +220,9 @@ defmodule Twilio.Client do
 
   # --- Private ---
 
+  defguardp is_transport_error(error)
+            when is_struct(error, Finch.TransportError) or is_struct(error, Mint.TransportError)
+
   defp do_request(client, url, headers, body, attempt, ctx) do
     %{method: method, max_retries: max_retries} = ctx
     tel = Map.take(ctx, [:method, :path, :product])
@@ -260,7 +263,7 @@ defmodule Twilio.Client do
       {:ok, %Finch.Response{status: status, headers: resp_headers, body: resp_body}} ->
         {:ok, status, resp_headers, resp_body, attempt}
 
-      {:error, %Mint.TransportError{}} when attempt < max_retries ->
+      {:error, error} when is_transport_error(error) and attempt < max_retries ->
         wait = backoff_ms(attempt)
 
         Twilio.Telemetry.retry(
@@ -290,15 +293,7 @@ defmodule Twilio.Client do
       :error ->
         finch_method = method |> to_string() |> String.upcase()
 
-        req =
-          Finch.build(
-            finch_method,
-            url,
-            headers,
-            body,
-            receive_timeout: client.read_timeout,
-            pool_timeout: client.open_timeout
-          )
+        req = Finch.build(finch_method, url, headers, body)
 
         Finch.request(req, client.finch)
     end
